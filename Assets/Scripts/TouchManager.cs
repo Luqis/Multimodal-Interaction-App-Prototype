@@ -30,7 +30,7 @@ public class TouchManager : MonoBehaviour
     private float maxScale = 3.5f;
 
     [Header("GameObject")]
-    public Transform obj;
+    public Transform target;
     public Transform touchBoundary;
     public Boundary boundary;
 
@@ -47,15 +47,15 @@ public class TouchManager : MonoBehaviour
 
     void Awake()
     {
-        _width = obj.GetComponent<RectTransform>().rect.width;
-        _height = obj.GetComponent<RectTransform>().rect.height;
+        _width = target.GetComponent<RectTransform>().rect.width;
+        _height = target.GetComponent<RectTransform>().rect.height;
 
         _xPos = touchBoundary.transform.position.x;
         _yPos = touchBoundary.transform.position.y;
 
         boundary = new Boundary(_width, _height, _xPos, _yPos);
 
-        _degreeOfRotation = obj.transform.eulerAngles.z;
+        _degreeOfRotation = target.transform.eulerAngles.z;
     }
 
     void Start()
@@ -85,16 +85,16 @@ public class TouchManager : MonoBehaviour
             if (up)
             {
                 if (recognizer.deltaScale > 0)
-                    obj.transform.localScale += Vector3.one * Mathf.Abs(recognizer.deltaScale);
-                if (obj.transform.localScale.z >= maxScale)
-                    obj.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
+                    target.transform.localScale += Vector3.one * Mathf.Abs(recognizer.deltaScale);
+                if (target.transform.localScale.z >= maxScale)
+                    target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
             }
             else
             {
                 if (recognizer.deltaScale < 0)
-                    obj.transform.localScale += Vector3.one * -Mathf.Abs(recognizer.deltaScale);
-                if (obj.transform.localScale.z < minScale)
-                    obj.transform.localScale = new Vector3(minScale, minScale, minScale);
+                    target.transform.localScale += Vector3.one * -Mathf.Abs(recognizer.deltaScale);
+                if (target.transform.localScale.z < minScale)
+                    target.transform.localScale = new Vector3(minScale, minScale, minScale);
             }
             Debug.Log("pinch recognizer fired: " + r);
         };
@@ -112,19 +112,19 @@ public class TouchManager : MonoBehaviour
             // Limit the object rotation
             if (_degreeOfRotation >= 270f || _degreeOfRotation == 0)
             {
-                obj.Rotate(Vector3.back, recognizer.deltaRotation * 0.9f);
+                target.Rotate(Vector3.back, recognizer.deltaRotation * 0.9f);
             }
             if (_degreeOfRotation > 0 && _degreeOfRotation < 90f)
             {
                 Vector3 desAng = new Vector3(0, 0, 0);
-                Vector3 smooth = Vector3.Lerp(desAng, obj.transform.eulerAngles, Time.deltaTime);
-                obj.transform.eulerAngles = smooth;
+                Vector3 smooth = Vector3.Lerp(desAng, target.transform.eulerAngles, Time.deltaTime);
+                target.transform.eulerAngles = smooth;
             }
             if (_degreeOfRotation < 270f && _degreeOfRotation > 180f)
             {
                 Vector3 desAng = new Vector3(0, 0, 270f);
-                Vector3 smooth = Vector3.Lerp(desAng, obj.transform.eulerAngles, Time.deltaTime);
-                obj.transform.eulerAngles = smooth;
+                Vector3 smooth = Vector3.Lerp(desAng, target.transform.eulerAngles, Time.deltaTime);
+                target.transform.eulerAngles = smooth;
             }
 
             //Debug.Log (cube.transform.eulerAngles.z);

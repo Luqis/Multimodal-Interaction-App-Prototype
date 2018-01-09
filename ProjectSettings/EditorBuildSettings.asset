@@ -11,6 +11,3 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelSelection.unity
     guid: d91a1dff02a06a349a173a3c8db20ab7
-  - enabled: 1
-    path: Assets/Scenes/Udara.unity
-    guid: 385f995fe84a9c24d8630fae9db38629

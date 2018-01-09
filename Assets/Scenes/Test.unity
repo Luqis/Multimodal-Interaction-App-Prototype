@@ -135,7 +135,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7471aa0017126c94b8a09a50b77a6970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 305502516}
+  scaleUp: 0
+  rotate: 0
+  minScale: 0.25
+  maxScale: 3.5
+  target: {fileID: 0}
+  touchBoundary: {fileID: 0}
+  boundary:
+    _width: 0
+    _height: 0
+    _xPos: 0
+    _yPos: 0
 --- !u!4 &15664707
 Transform:
   m_ObjectHideFlags: 0
@@ -707,14 +717,14 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1365208141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1365208140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1583511013783da449e898f06f6553e9, type: 3}
   m_Name: 
@@ -726,6 +736,9 @@ MonoBehaviour:
   - right
   confidence: 2
   speed: 1
+  sensitivity: 100
+  loudness: 0
+  _audio: {fileID: 0}
   results: {fileID: 356318303}
   target: {fileID: 305502518}
 --- !u!4 &1365208142

@@ -2,14 +2,24 @@
 using System.Collections;
 using UnityEngine.UI;
 using KKSpeech;
+using System.Collections.Generic;
 
 public class RecordingCanvas : MonoBehaviour {
 
 	public Button startRecordingButton;
 	public Text resultText;
+    public Text ans;
+    public string langId = "ms-MY";
+    private List<LanguageOption> languageOptions;
 
-	void Start() {
-		if (SpeechRecognizer.ExistsOnDevice()) {
+    private void Awake()
+    {
+        SetLanguage(langId);
+    }
+
+    void Start() {
+        
+        if (SpeechRecognizer.ExistsOnDevice()) {
 			SpeechRecognizerListener listener = GameObject.FindObjectOfType<SpeechRecognizerListener>();
 			listener.onAuthorizationStatusFetched.AddListener(OnAuthorizationStatusFetched);
 			listener.onAvailabilityChanged.AddListener(OnAvailabilityChange);
@@ -18,8 +28,10 @@ public class RecordingCanvas : MonoBehaviour {
 			listener.onFinalResults.AddListener(OnFinalResult);
 			listener.onPartialResults.AddListener(OnPartialResult);
 			listener.onEndOfSpeech.AddListener(OnEndOfSpeech);
+            listener.onSupportedLanguagesFetched.AddListener(OnSupportedLanguagesFetched);
 			startRecordingButton.enabled = false;
-			SpeechRecognizer.RequestAccess();
+            SpeechRecognizer.GetSupportedLanguages();
+            SpeechRecognizer.RequestAccess();
 		} else {
 			resultText.text = "Sorry, but this device doesn't support speech recognition";
 			startRecordingButton.enabled = false;
@@ -27,8 +39,23 @@ public class RecordingCanvas : MonoBehaviour {
 
 	}
 
-	public void OnFinalResult(string result) {
-		resultText.text = result;
+    void SetLanguage(string id)
+    {
+        SpeechRecognizer.SetDetectionLanguage(id);
+    }
+
+    public void OnSupportedLanguagesFetched(List<LanguageOption> languages)
+    {
+        languageOptions = languages;
+    }
+
+    public void OnFinalResult(string result) {
+        resultText.text = result;
+        if (result == "kanan pusing")
+        {
+            ans.text = "yes";
+        }
+		
 	}
 
 	public void OnPartialResult(string result) {

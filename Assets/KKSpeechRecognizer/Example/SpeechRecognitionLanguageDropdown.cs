@@ -9,8 +9,9 @@ namespace KKSpeech {
 
 		private Dropdown dropdown;
 		private List<LanguageOption> languageOptions;
+        public Text resultTextq;
 
-		void Start () {
+        void Start () {
 			dropdown = GetComponent<Dropdown>();
 			dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
 			dropdown.ClearOptions();
@@ -31,6 +32,7 @@ namespace KKSpeech {
 			LanguageOption languageOption = languageOptions[index];
 
 			SpeechRecognizer.SetDetectionLanguage(languageOption.id);
+            resultTextq.text = languageOption.id;
 		}
 
 		void OnSupportedLanguagesFetched(List<LanguageOption> languages) {

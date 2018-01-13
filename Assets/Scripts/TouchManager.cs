@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct Boundary
@@ -19,8 +20,14 @@ public struct Boundary
 
 public class TouchManager : MonoBehaviour
 {
+    //public static TouchManager Instance { set; get; }
+
+    public static float rotationDegree = 0;
+    
+
     [Header("Touch Mode")]
     public bool scaleUp;
+    public bool scaleDown;
     public bool rotate;
 
     [Header("Scale Limit")]
@@ -30,11 +37,12 @@ public class TouchManager : MonoBehaviour
     private float maxScale = 3.5f;
 
     [Header("GameObject")]
+    public Transform clips;
+    public Transform magnetPoint;
     public Transform target;
     public Transform touchBoundary;
     public Boundary boundary;
 
-    private float _degreeOfRotation;
     private float _width;
     private float _height;
     private float _xPos;
@@ -47,26 +55,31 @@ public class TouchManager : MonoBehaviour
 
     void Awake()
     {
-        _width = target.GetComponent<RectTransform>().rect.width;
-        _height = target.GetComponent<RectTransform>().rect.height;
+        _width = touchBoundary.GetComponent<RectTransform>().rect.width;
+        _height = touchBoundary.GetComponent<RectTransform>().rect.height;
 
         _xPos = touchBoundary.transform.position.x;
         _yPos = touchBoundary.transform.position.y;
 
         boundary = new Boundary(_width, _height, _xPos, _yPos);
-
-        _degreeOfRotation = target.transform.eulerAngles.z;
     }
 
     void Start()
     {
         if (scaleUp)
             ScaleObject(true);
-        else
+        if (scaleDown)
             ScaleObject(false);
-
         if (rotate)
             RotateObject();
+    }
+
+    private void FixedUpdate()
+    {
+        if (rotationDegree <= 305f && rotationDegree >= 295f)
+        {
+            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+        }
     }
 
     public void ScaleObject(bool up)
@@ -77,7 +90,8 @@ public class TouchManager : MonoBehaviour
 
         var recognizer = new TKPinchRecognizer
         {
-            boundaryFrame = new TKRect(xOffset, yOffset, _width * scaleFactor, _height * scaleFactor)
+            //boundaryFrame = new TKRect(xOffset, yOffset, _width * scaleFactor, _height * scaleFactor)
+            
         };
 
         recognizer.gestureRecognizedEvent += (r) =>
@@ -103,12 +117,11 @@ public class TouchManager : MonoBehaviour
 
     public void RotateObject()
     {
-        var recognizer = new TKRotationRecognizer
-        {
-            boundaryFrame = new TKRect(_xPos, _yPos, _width, _height)
-        };
+        var recognizer = new TKRotationRecognizer();
+
         recognizer.gestureRecognizedEvent += (r) =>
         {
+            float _degreeOfRotation = target.transform.eulerAngles.z;
             // Limit the object rotation
             if (_degreeOfRotation >= 270f || _degreeOfRotation == 0)
             {
@@ -129,7 +142,16 @@ public class TouchManager : MonoBehaviour
 
             //Debug.Log (cube.transform.eulerAngles.z);
             Debug.Log("rotation recognizer fired: " + r);
+            rotationDegree = _degreeOfRotation;
         };
         TouchKit.addGestureRecognizer(recognizer);
+    }
+
+    public void RotateObjectVoice(float angle)
+    {
+        //Quaternion q = Quaternion.Euler(0, 0, angle);
+        //target.transform.rotation = Quaternion.Lerp(target.rotation, q, Time.deltaTime * 5f);
+        target.Rotate(0, 0, 15f);
+        
     }
 }

@@ -136,11 +136,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleUp: 0
-  rotate: 0
+  scaleDown: 0
+  rotate: 1
   minScale: 0.25
   maxScale: 3.5
-  target: {fileID: 0}
-  touchBoundary: {fileID: 0}
+  target: {fileID: 305502516}
+  touchBoundary: {fileID: 305502516}
   boundary:
     _width: 0
     _height: 0
@@ -729,18 +730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1583511013783da449e898f06f6553e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keywords:
-  - kanan pusing
-  - down
-  - left
-  - right
-  confidence: 2
-  speed: 1
-  sensitivity: 100
-  loudness: 0
-  _audio: {fileID: 0}
-  results: {fileID: 356318303}
-  target: {fileID: 305502518}
 --- !u!4 &1365208142
 Transform:
   m_ObjectHideFlags: 0

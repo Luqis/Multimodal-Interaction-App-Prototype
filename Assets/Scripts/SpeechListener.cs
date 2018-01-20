@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using KKSpeech;
 using System.Collections;
-using UnityEngine.UI;
-using KKSpeech;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SpeechListener : MonoBehaviour
 {
@@ -12,16 +13,17 @@ public class SpeechListener : MonoBehaviour
     public Transform clips;
     public Transform magnetPoint;
     public Transform target;
-    public GameObject volume;
 
     public float sensitivity = 100f;
     public float loudness = 0;
+    private float barScale = 0.1f;
 
     public RectTransform volumeBar;
+    public AudioMixer audioMixer;
     public AudioSource _audio;
-    int currentMic = 0;
-    int minFreqs;
-    int maxFreqs;
+    private int currentMic = 0;
+    private int minFreqs;
+    private int maxFreqs;
 
     public float rotationDegree = 0;
     public string langId = "ms-MY";
@@ -31,12 +33,12 @@ public class SpeechListener : MonoBehaviour
     private void Awake()
     {
         SetLanguage(langId);
+        DisableBgMusic();
+        Microphone.GetDeviceCaps(null, out minFreqs, out maxFreqs);
     }
 
-    void Start()
+    private void Start()
     {
-        Microphone.GetDeviceCaps(null, out minFreqs, out maxFreqs);
-        _audio.loop = true;
         rotationDegree = TouchManager.rotationDegree;
         if (SpeechRecognizer.ExistsOnDevice())
         {
@@ -45,11 +47,11 @@ public class SpeechListener : MonoBehaviour
             listener.onAvailabilityChanged.AddListener(OnAvailabilityChange);
             listener.onErrorDuringRecording.AddListener(OnError);
             listener.onErrorOnStartRecording.AddListener(OnError);
-            listener.onFinalResults.AddListener(OnFinalResult);
+            //listener.onFinalResults.AddListener(OnFinalResult);
             listener.onPartialResults.AddListener(OnPartialResult);
             listener.onEndOfSpeech.AddListener(OnEndOfSpeech);
             listener.onSupportedLanguagesFetched.AddListener(OnSupportedLanguagesFetched);
-            startRecordingButton.enabled = false;
+            startRecordingButton.enabled = true;
             SpeechRecognizer.GetSupportedLanguages();
             SpeechRecognizer.RequestAccess();
         }
@@ -58,7 +60,6 @@ public class SpeechListener : MonoBehaviour
             resultText.text = "Sorry, but this device doesn't support speech recognition";
             startRecordingButton.enabled = false;
         }
-
     }
 
     private void Update()
@@ -72,17 +73,11 @@ public class SpeechListener : MonoBehaviour
             if (rotationDegree == 345f || rotationDegree == 330f || rotationDegree == 315f || rotationDegree <= 300f)
             {
                 resultText.text = "...";
-                
+                SpeechRecognizer.StopIfRecording();
             }
-            
-            SpeechRecognizer.StopIfRecording();
         }
 
-        loudness = GetAvgVolume() * sensitivity;
-        if (loudness > 1)
-        {
-            volumeBar.localScale = new Vector2(1f, loudness);
-        }
+        //SpeechLoudness();
     }
 
     private void FixedUpdate()
@@ -93,7 +88,24 @@ public class SpeechListener : MonoBehaviour
         }
     }
 
-    void SetLanguage(string id)
+    private void SpeechLoudness()
+    {
+        loudness = GetAvgVolume() * sensitivity;
+        if (loudness > 0)
+        {
+            if (volumeBar.localScale.y >= 175f)
+            {
+                volumeBar.localScale = new Vector2(1f, 175f);
+            }
+            Mathf.Clamp(barScale, 0.1f, 175f);
+            barScale = ((loudness * 10) / 175) * 100;
+            volumeBar.localScale = new Vector2(1f, barScale);
+        }
+    }
+
+    #region Speech Recognition properties
+
+    private void SetLanguage(string id)
     {
         SpeechRecognizer.SetDetectionLanguage(id);
     }
@@ -105,7 +117,7 @@ public class SpeechListener : MonoBehaviour
 
     public void OnFinalResult(string result)
     {
-        resultText.text = result;        
+        resultText.text = result;
     }
 
     public void OnPartialResult(string result)
@@ -133,6 +145,7 @@ public class SpeechListener : MonoBehaviour
             case AuthorizationStatus.Authorized:
                 startRecordingButton.enabled = true;
                 break;
+
             default:
                 startRecordingButton.enabled = false;
                 resultText.text = "Cannot use Speech Recognition, authorization status is " + status;
@@ -150,10 +163,15 @@ public class SpeechListener : MonoBehaviour
         Debug.LogError(error);
         resultText.text = "Something went wrong... Try again! \n [" + error + "]";
         startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
+        _audio.Stop();
     }
 
-    public void OnStartRecordingPressed()
+    #endregion
+
+    public void StartMicRecording()
     {
+        resultText.text = "Cakap sesuatu";
+        //Stop speech recognizer
         if (SpeechRecognizer.IsRecording())
         {
             SpeechRecognizer.StopIfRecording();
@@ -162,11 +180,47 @@ public class SpeechListener : MonoBehaviour
         else
         {
             SpeechRecognizer.StartRecording(true);
-            _audio.clip = Microphone.Start(null, true, 3, maxFreqs);
-            _audio.Play();
-            startRecordingButton.GetComponentInChildren<Text>().text = "Stop Recording";
             resultText.text = "Cakap sesuatu";
+            startRecordingButton.GetComponentInChildren<Text>().text = "Stop Recording";
         }
+    }
+
+    public void StartSpeechRecording()
+    {
+        resultText.text = "...";
+        StartCoroutine(InitiateSpeechRecognition());
+    }
+
+    private IEnumerator InitiateSpeechRecognition()
+    {
+        int time = 2;
+        if (Microphone.IsRecording(null))
+        {
+            Microphone.End(null);
+            _audio.Stop();
+        }
+        while (time != 0)
+        {
+            time--;
+            resultText.text = "<" + time + ">";
+            yield return new WaitForSeconds(1f);
+        }
+        // Start speech recognition
+        SpeechRecognizer.StartRecording(true);
+        // Unmute the mic
+        audioMixer.SetFloat("micVol", 0);
+        _audio.loop = false;
+        // Play the recoded sound
+        _audio.Play();
+        // wait until recorded audio end
+        yield return new WaitForSeconds(_audio.clip.length);
+        // Stop speech recognition
+        //if (SpeechRecognizer.IsRecording())
+        //{
+        SpeechRecognizer.StopIfRecording();
+        _audio.Stop();
+        startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
+        //}
     }
 
     public float GetAvgVolume()
@@ -179,5 +233,12 @@ public class SpeechListener : MonoBehaviour
             a += Mathf.Abs(s);
         }
         return a / 256;
+    }
+
+    private void DisableBgMusic()
+    {
+        GameObject go = GameObject.Find("AudioManager");
+        AudioSource aud = go.GetComponent<AudioSource>();
+        aud.enabled = false;
     }
 }

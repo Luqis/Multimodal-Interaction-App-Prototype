@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class OnButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -9,11 +7,11 @@ public class OnButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        instance.StartMicRecording();
+        //instance.StartMicRecording();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        instance.StartSpeechRecording();
+        //instance.StartSpeechRecording();
     }
 }

@@ -1,45 +1,36 @@
 ﻿using KKSpeech;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class SpeechListener : MonoBehaviour
 {
     public Button startRecordingButton;
     public Text resultText;
+    public Text rotationText;
 
+    [Header("Magnet Reference")]
     public Transform clips;
     public Transform magnetPoint;
     public Transform target;
 
-    public float sensitivity = 100f;
-    public float loudness = 0;
-    private float barScale = 0.1f;
-
-    public RectTransform volumeBar;
-    public AudioMixer audioMixer;
-    public AudioSource _audio;
-    private int currentMic = 0;
-    private int minFreqs;
-    private int maxFreqs;
-
-    public float rotationDegree = 0;
-    public string langId = "ms-MY";
+    private float[] rotationDegrees = { 348f, 336f, 324f, 312f };
     private List<LanguageOption> languageOptions;
-    private float angle = 15f;
+    private string langId = "ms-MY";
+    private string[] keywords = { "kanan", "gerak", "pusing" };
+    public float rotationDegree = 0;
+    public Image magnetOutline;
 
     private void Awake()
     {
         SetLanguage(langId);
         DisableBgMusic();
-        Microphone.GetDeviceCaps(null, out minFreqs, out maxFreqs);
     }
 
     private void Start()
     {
-        rotationDegree = TouchManager.rotationDegree;
         if (SpeechRecognizer.ExistsOnDevice())
         {
             SpeechRecognizerListener listener = GameObject.FindObjectOfType<SpeechRecognizerListener>();
@@ -47,8 +38,8 @@ public class SpeechListener : MonoBehaviour
             listener.onAvailabilityChanged.AddListener(OnAvailabilityChange);
             listener.onErrorDuringRecording.AddListener(OnError);
             listener.onErrorOnStartRecording.AddListener(OnError);
-            //listener.onFinalResults.AddListener(OnFinalResult);
-            listener.onPartialResults.AddListener(OnPartialResult);
+            listener.onFinalResults.AddListener(OnFinalResult);
+            //listener.onPartialResults.AddListener(OnPartialResult);
             listener.onEndOfSpeech.AddListener(OnEndOfSpeech);
             listener.onSupportedLanguagesFetched.AddListener(OnSupportedLanguagesFetched);
             startRecordingButton.enabled = true;
@@ -58,52 +49,51 @@ public class SpeechListener : MonoBehaviour
         else
         {
             resultText.text = "Sorry, but this device doesn't support speech recognition";
-            startRecordingButton.enabled = false;
+            startRecordingButton.interactable = false;
         }
     }
 
     private void Update()
     {
         rotationDegree = target.transform.eulerAngles.z;
+        VerifyKeyword();
 
-        if (resultText.text == "kanan" || resultText.text == "gerak" || resultText.text == "pusing")
+        if (rotationDegree <= 305f && rotationDegree >= 295f)
         {
-            target.Rotate(0, 0, -0.5f);
+            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            magnetOutline.color = new Color(0, 1, 0, 0.5f);
+        }
+        else
+            magnetOutline.color = new Color(1, 0, 0, 0.5f);
+    }
 
-            if (rotationDegree == 345f || rotationDegree == 330f || rotationDegree == 315f || rotationDegree <= 300f)
+    private void VerifyKeyword()
+    {
+        if (Array.Exists(keywords, word => word == resultText.text))
+        {
+            target.Rotate(0, 0, -1f);
+
+            if (Array.Exists(rotationDegrees, degree => degree == rotationDegree) || rotationDegree <= 300f)
             {
                 resultText.text = "...";
                 SpeechRecognizer.StopIfRecording();
             }
-        }
 
-        //SpeechLoudness();
+            UpdateDegreeOfRotationText();
+        }
     }
 
-    private void FixedUpdate()
+    private void UpdateDegreeOfRotationText()
     {
-        if (rotationDegree <= 305f && rotationDegree >= 295f)
+        if (rotationDegree >= 0 && rotationDegree < 15)
         {
-            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            rotationText.text = "0˚";
         }
+        else
+            rotationText.text = (360f - rotationDegree).ToString("0.#") + "˚";
     }
 
-    private void SpeechLoudness()
-    {
-        loudness = GetAvgVolume() * sensitivity;
-        if (loudness > 0)
-        {
-            if (volumeBar.localScale.y >= 175f)
-            {
-                volumeBar.localScale = new Vector2(1f, 175f);
-            }
-            Mathf.Clamp(barScale, 0.1f, 175f);
-            barScale = ((loudness * 10) / 175) * 100;
-            volumeBar.localScale = new Vector2(1f, barScale);
-        }
-    }
-
-    #region Speech Recognition properties
+    #region Speech Recognition Properties
 
     private void SetLanguage(string id)
     {
@@ -155,84 +145,42 @@ public class SpeechListener : MonoBehaviour
 
     public void OnEndOfSpeech()
     {
-        startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
+        //startRecordingButton.interactable = true;
+        //startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
     }
 
     public void OnError(string error)
     {
         Debug.LogError(error);
-        resultText.text = "Something went wrong... Try again! \n [" + error + "]";
-        startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
-        _audio.Stop();
+        resultText.text = "Cuba lagi!";
+        //resultText.text = "Try again! [" + error + "]";
     }
 
-    #endregion
-
-    public void StartMicRecording()
-    {
-        resultText.text = "Cakap sesuatu";
-        //Stop speech recognizer
-        if (SpeechRecognizer.IsRecording())
-        {
-            SpeechRecognizer.StopIfRecording();
-            startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
-        }
-        else
-        {
-            SpeechRecognizer.StartRecording(true);
-            resultText.text = "Cakap sesuatu";
-            startRecordingButton.GetComponentInChildren<Text>().text = "Stop Recording";
-        }
-    }
+    #endregion Speech Recognition Properties
 
     public void StartSpeechRecording()
     {
-        resultText.text = "...";
-        StartCoroutine(InitiateSpeechRecognition());
+        StopCoroutine(SpeechRecognitionProcess());
+        startRecordingButton.interactable = false;
+        SpeechRecognizer.StartRecording(true);
+        resultText.text = "Cakap sesuatu";
+        StartCoroutine(SpeechRecognitionProcess());
     }
 
-    private IEnumerator InitiateSpeechRecognition()
+    private IEnumerator SpeechRecognitionProcess()
     {
-        int time = 2;
-        if (Microphone.IsRecording(null))
-        {
-            Microphone.End(null);
-            _audio.Stop();
-        }
+        int time = 5;
+
         while (time != 0)
         {
             time--;
-            resultText.text = "<" + time + ">";
+            startRecordingButton.GetComponentInChildren<Text>().text = "<" + time + ">";
             yield return new WaitForSeconds(1f);
         }
-        // Start speech recognition
-        SpeechRecognizer.StartRecording(true);
-        // Unmute the mic
-        audioMixer.SetFloat("micVol", 0);
-        _audio.loop = false;
-        // Play the recoded sound
-        _audio.Play();
-        // wait until recorded audio end
-        yield return new WaitForSeconds(_audio.clip.length);
-        // Stop speech recognition
-        //if (SpeechRecognizer.IsRecording())
-        //{
-        SpeechRecognizer.StopIfRecording();
-        _audio.Stop();
-        startRecordingButton.GetComponentInChildren<Text>().text = "Start Recording";
-        //}
-    }
 
-    public float GetAvgVolume()
-    {
-        float[] data = new float[256];
-        float a = 0;
-        _audio.GetOutputData(data, 0);
-        foreach (float s in data)
-        {
-            a += Mathf.Abs(s);
-        }
-        return a / 256;
+        SpeechRecognizer.StopIfRecording();
+        startRecordingButton.interactable = true;
+        startRecordingButton.GetComponentInChildren<Text>().text = "Mula rakaman";
     }
 
     private void DisableBgMusic()

@@ -1,13 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour {
+public class AudioManager : MonoBehaviour
+{
 
     public static AudioManager instance;
 
-    public AudioSource _bgMusic;
+    public GameObject SettingPanel = null;
+
+    public Button musicOn;
+    public Button musicOff;
+    public AudioSource bgMusic;
+    public bool playMusic = true;
     Scene sc;
 
     void Awake()
@@ -26,13 +31,47 @@ public class AudioManager : MonoBehaviour {
     private void Update()
     {
         sc = SceneManager.GetActiveScene();
-
-        if (sc.name != "MagnetSpeech")
+        if (sc.name != "MagnetSpeech" && playMusic)
         {
-            if (!_bgMusic.enabled)
+            bgMusic.enabled = true;
+        }
+        else
+        {
+            bgMusic.enabled = false;
+        }
+
+        if (sc.name == "Main")
+        {
+            SettingPanel = GameObject.Find("SettingPanel");
+            if (SettingPanel != null)
             {
-                _bgMusic.enabled = true;
+                musicOn = GameObject.Find("BtnYes").GetComponent<Button>();
+                musicOff = GameObject.Find("BtnNo").GetComponent<Button>();
+
+                if (musicOff.IsActive())
+                {
+                    musicOff.onClick.AddListener(DisableBgMusic);
+                }
+
+                if (musicOn.IsActive())
+                {
+                    musicOn.onClick.AddListener(EnableBgMusic);
+                }
             }
         }
+
+
+    }
+
+    public void EnableBgMusic()
+    {
+        bgMusic.enabled = true;
+        playMusic = true;
+    }
+
+    public void DisableBgMusic()
+    {
+        bgMusic.enabled = false;
+        playMusic = false;
     }
 }

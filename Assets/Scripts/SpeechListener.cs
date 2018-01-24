@@ -16,7 +16,7 @@ public class SpeechListener : MonoBehaviour
     public Transform magnetPoint;
     public Transform target;
 
-    private float[] rotationDegrees = { 348f, 336f, 324f, 312f };
+    private float[] rotationDegrees = { 355f, 345f, 330f }; //{ 350f, 340f, 330f, 320f, 310f };
     private List<LanguageOption> languageOptions;
     private string langId = "ms-MY";
     private string[] keywords = { "kanan", "gerak", "pusing" };

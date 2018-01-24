@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
-
     public void GoToScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
@@ -14,4 +13,8 @@ public class ChangeScene : MonoBehaviour
         Application.Quit();
     }
 
+    public void ButtonClicked()
+    {
+        AudioManager.instance.Play("btnClick");
+    }
 }

@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MagnetSpeech.unity
     guid: 35724c391dc6d52419bf5ead29d01311
+  - enabled: 1
+    path: Assets/Scenes/MagnetVideo.unity
+    guid: a34505e7d9f0d28408d18fb1755e25d2

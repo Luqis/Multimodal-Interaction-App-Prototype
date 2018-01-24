@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-
     public static AudioManager instance;
 
     public GameObject SettingPanel = null;
@@ -13,25 +13,58 @@ public class AudioManager : MonoBehaviour
     public Button musicOff;
     public AudioSource bgMusic;
     public bool playMusic = true;
-    Scene sc;
+    private Scene sc;
 
-    void Awake()
+    [Header("Sound List")]
+    public Sound[] sounds;
+
+    private void Awake()
     {
         if (instance != null)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        LoopSoundArray();
     }
 
     private void Update()
     {
         sc = SceneManager.GetActiveScene();
-        if (sc.name != "MagnetSpeech" && playMusic)
+        CheckSceneName(sc.name);
+    }
+
+    public void LoopSoundArray()
+    {
+        foreach (Sound s in sounds)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.priority = s.priority;
+            s.source.volume = s.volume;
+            s.source.loop = s.loop;
+        }
+    }
+
+    public void Play(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.source.Play();
+    }
+    public void CheckSceneName(string name)
+    {
+        if (name != "MagnetSpeech" && playMusic)
         {
             bgMusic.enabled = true;
         }
@@ -40,7 +73,7 @@ public class AudioManager : MonoBehaviour
             bgMusic.enabled = false;
         }
 
-        if (sc.name == "Main")
+        if (name == "Main")
         {
             SettingPanel = GameObject.Find("SettingPanel");
             if (SettingPanel != null)
@@ -59,8 +92,6 @@ public class AudioManager : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     public void EnableBgMusic()

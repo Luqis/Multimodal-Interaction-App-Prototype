@@ -214,11 +214,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 929076630}
+      objectReference: {fileID: 929076629}
     - target: {fileID: 114337329972694894, guid: 8e169bd7e4acf0248b19eb41733be60f,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Play
+      value: ButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 114337329972694894, guid: 8e169bd7e4acf0248b19eb41733be60f,
         type: 2}
@@ -472,7 +472,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4ae2e40f0b9ad664fad091fdf3648fef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a7b8bb76691de364399572ffbb462209, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -704,11 +704,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 929076630}
+      objectReference: {fileID: 929076629}
     - target: {fileID: 114188414993032046, guid: 1481acb052b5e4f4ea70c7858bcd85de,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Play
+      value: ButtonClicked
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1481acb052b5e4f4ea70c7858bcd85de, type: 2}
@@ -1113,11 +1113,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 929076628}
   m_Script: {fileID: 11500000, guid: f853ab4c8a56f574da75cc0a61ddc4af, type: 3}
---- !u!82 &929076630 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 82527253026806656, guid: 936aa60baf7671c4989de104298de370,
-    type: 2}
-  m_PrefabInternal: {fileID: 929076628}
 --- !u!1 &1013944323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1180,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -170, y: -222}
-  m_SizeDelta: {x: 210, y: 210}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1144038164
 GameObject:
@@ -1911,7 +1906,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...'
+  m_Text: "0\u02DA"
 --- !u!1001 &1806406512
 Prefab:
   m_ObjectHideFlags: 0

@@ -194,8 +194,8 @@ MonoBehaviour:
           m_StringArgument: Udara
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1117582864}
-        m_MethodName: Play
+      - m_Target: {fileID: 913560105}
+        m_MethodName: ButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -490,7 +490,12 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1117582864}
+      objectReference: {fileID: 913560105}
+    - target: {fileID: 114188414993032046, guid: 1481acb052b5e4f4ea70c7858bcd85de,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ButtonClicked
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1481acb052b5e4f4ea70c7858bcd85de, type: 2}
   m_IsPrefabParent: 0
@@ -874,8 +879,8 @@ MonoBehaviour:
           m_StringArgument: Planet
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1117582864}
-        m_MethodName: Play
+      - m_Target: {fileID: 913560105}
+        m_MethodName: ButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -968,11 +973,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 936aa60baf7671c4989de104298de370, type: 2}
   m_IsPrefabParent: 0
---- !u!82 &1117582864 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 82527253026806656, guid: 936aa60baf7671c4989de104298de370,
-    type: 2}
-  m_PrefabInternal: {fileID: 1117582863}
 --- !u!1 &1231451498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,8 +1059,8 @@ MonoBehaviour:
           m_StringArgument: Magnet
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1117582864}
-        m_MethodName: Play
+      - m_Target: {fileID: 913560105}
+        m_MethodName: ButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

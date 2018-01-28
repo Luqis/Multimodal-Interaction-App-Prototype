@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public Button musicOff;
     public AudioSource bgMusic;
     public bool playMusic = true;
+    public string[] sceneNameArray = { "MagnetSpeech", "UdaraSpeech", "PlanetSpeech" };
     private Scene sc;
 
     [Header("Sound List")]
@@ -38,6 +39,7 @@ public class AudioManager : MonoBehaviour
     {
         sc = SceneManager.GetActiveScene();
         CheckSceneName(sc.name);
+        Debug.Log(sc.name);
     }
 
     public void LoopSoundArray()
@@ -64,13 +66,13 @@ public class AudioManager : MonoBehaviour
     }
     public void CheckSceneName(string name)
     {
-        if (name != "MagnetSpeech" && playMusic)
-        {
-            bgMusic.enabled = true;
-        }
-        else
+        if (Array.Exists(sceneNameArray, sceneName => sceneName == name))
         {
             bgMusic.enabled = false;
+        }
+        else if (playMusic)
+        {
+            bgMusic.enabled = true;
         }
 
         if (name == "Main")

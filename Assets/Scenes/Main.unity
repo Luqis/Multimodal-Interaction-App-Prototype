@@ -424,9 +424,19 @@ MonoBehaviour:
   musicOff: {fileID: 793341657}
   bgMusic: {fileID: 190079154}
   playMusic: 1
+  sceneNameArray:
+  - MagnetSpeech
+  - UdaraSpeech
+  - PlanetSpeech
   sounds:
   - name: btnClick
     clip: {fileID: 8300000, guid: 3d866f62e64a8254e9602eb3159dd170, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: yeay
+    clip: {fileID: 8300000, guid: b2fe16d67df8bca49a1cda573b633fdb, type: 3}
     priority: 0
     volume: 1
     loop: 0

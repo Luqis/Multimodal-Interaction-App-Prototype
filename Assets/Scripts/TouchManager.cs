@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -20,8 +22,11 @@ public struct Boundary
 
 public class TouchManager : MonoBehaviour
 {
+    public PlayableDirector playDir;
     public float rotationDegree = 0;
     public Text rotationText;
+    public Transform successPanel;
+    public Button restartButton;
 
     [Header("Touch Mode")]
     public bool scaleUp;
@@ -30,18 +35,19 @@ public class TouchManager : MonoBehaviour
 
     [Header("Scale Limit")]
     [SerializeField]
-    private float minScale = 0.25f;
+    private float minScale = 0.425f;
     [SerializeField]
-    private float maxScale = 3.5f;
+    private float maxScale = 2.5f;
 
     [Header("Magnet Reference")]
     public Transform clips;
-    public Transform target;
     public Transform magnetPoint;
-    public Image magnetOutline;
+    public Image targetOutline;
     public Transform touchBoundary;
     public Boundary boundary;
+    public Transform target;
 
+    private bool endGame = false;
     private float _width;
     private float _height;
     private float _xPos;
@@ -61,10 +67,17 @@ public class TouchManager : MonoBehaviour
         _yPos = touchBoundary.transform.position.y;
 
         boundary = new Boundary(_width, _height, _xPos, _yPos);
+        successPanel = GameObject.Find("SuccessPanel").GetComponent<Transform>();
+        restartButton = GameObject.Find("Restart-btn").GetComponent<Button>();
+
     }
 
     private void Start()
     {
+        successPanel.gameObject.SetActive(false);
+        restartButton.interactable = false;
+        endGame = true;
+
         if (scaleUp)
             ScaleObject(true);
         if (scaleDown)
@@ -75,15 +88,39 @@ public class TouchManager : MonoBehaviour
 
     private void Update()
     {
-        if (rotationDegree <= 305f && rotationDegree >= 295f)
+        if (rotate)
         {
-            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
-            magnetOutline.color = new Color(0, 1, 0, 0.5f);
-        }
-        else
-            magnetOutline.color = new Color(1, 0, 0, 0.5f);
+            if (rotationDegree <= 305f && rotationDegree >= 295f)
+            {
+                clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+                if (clips.position == magnetPoint.position && endGame)
+                {
+                    StartCoroutine(ActiveSuccessPanel());
+                    endGame = false;
+                }
+                targetOutline.color = new Color(0, 1, 0, 0.5f);
+            }
+            else
+                targetOutline.color = new Color(1, 0, 0, 0.5f);
 
-        UpdateDegreeOfRotationText();
+            UpdateDegreeOfRotationText();
+        }
+    }
+
+    IEnumerator ActiveSuccessPanel()
+    {
+        if (scaleDown)
+        {
+            yield return new WaitForSeconds(1f);
+            playDir.Play();
+            yield return new WaitForSeconds(2f);
+        }
+
+        yield return new WaitForSeconds(1f);
+        AudioManager.instance.Play("yeay");
+        successPanel.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        restartButton.interactable = true;
     }
 
     private void UpdateDegreeOfRotationText()
@@ -98,10 +135,7 @@ public class TouchManager : MonoBehaviour
 
     public void ScaleObject(bool up)
     {
-        float scaleFactor = 1.5f;
-        float xOffset = _xPos - (_width * scaleFactor - _width) / 2f;
-        float yOffset = _yPos - (_height * scaleFactor - _width) / 2f;
-
+        float scaleFactor = 0.25f;
         var recognizer = new TKPinchRecognizer
         {
             //boundaryFrame = new TKRect(xOffset, yOffset, _width * scaleFactor, _height * scaleFactor)
@@ -112,16 +146,24 @@ public class TouchManager : MonoBehaviour
             if (up)
             {
                 if (recognizer.deltaScale > 0)
-                    target.transform.localScale += Vector3.one * Mathf.Abs(recognizer.deltaScale);
-                if (target.transform.localScale.z >= maxScale)
+                    target.transform.localScale += Vector3.one * scaleFactor * Mathf.Abs(recognizer.deltaScale);
+                if (target.transform.localScale.x >= maxScale)
+                {
                     target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
+                    StartCoroutine(ActiveSuccessPanel());
+
+                }
             }
             else
             {
                 if (recognizer.deltaScale < 0)
-                    target.transform.localScale += Vector3.one * -Mathf.Abs(recognizer.deltaScale);
-                if (target.transform.localScale.z < minScale)
+                    target.transform.localScale += Vector3.one * scaleFactor * -Mathf.Abs(recognizer.deltaScale);
+                if (target.transform.localScale.x < minScale)
+                {
                     target.transform.localScale = new Vector3(minScale, minScale, minScale);
+                    targetOutline.color = new Color(0, 1, 0, 1f);
+                    StartCoroutine(ActiveSuccessPanel());
+                }
             }
             Debug.Log("pinch recognizer fired: " + r);
         };

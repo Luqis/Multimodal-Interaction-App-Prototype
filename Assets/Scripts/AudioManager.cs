@@ -13,11 +13,13 @@ public class AudioManager : MonoBehaviour
     public Button musicOff;
     public AudioSource bgMusic;
     public bool playMusic = true;
-    public string[] sceneNameArray = { "MagnetSpeech", "UdaraSpeech", "PlanetSpeech" };
-    private Scene sc;
+    public bool[] IntroPlayed;
 
     [Header("Sound List")]
     public Sound[] sounds;
+
+    private string[] sceneNameArray = { "MagnetSpeech", "UdaraSpeech", "PlanetSpeech" };
+    private Scene sc;
 
     private void Awake()
     {
@@ -31,7 +33,6 @@ public class AudioManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
         LoopSoundArray();
     }
 
@@ -44,6 +45,7 @@ public class AudioManager : MonoBehaviour
 
     public void LoopSoundArray()
     {
+        IntroPlayed = new bool[SceneManager.sceneCountInBuildSettings];
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -64,6 +66,22 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Play();
     }
+
+    public float GetAudioClipLength(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return 0;
+        }
+        else
+        {
+            float cliplength = s.source.clip.length;
+            return cliplength;
+        }
+    }
+
     public void CheckSceneName(string name)
     {
         if (Array.Exists(sceneNameArray, sceneName => sceneName == name))

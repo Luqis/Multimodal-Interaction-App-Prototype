@@ -150,8 +150,8 @@ public class TouchManager : MonoBehaviour
                 if (target.transform.localScale.x >= maxScale)
                 {
                     target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
+                    targetOutline.color = new Color(0, 1, 0, 1f);
                     StartCoroutine(ActiveSuccessPanel());
-
                 }
             }
             else

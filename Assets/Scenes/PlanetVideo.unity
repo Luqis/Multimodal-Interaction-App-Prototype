@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 844324938}
   - component: {fileID: 844324940}
   - component: {fileID: 844324939}
+  - component: {fileID: 844324941}
   m_Layer: 5
   m_Name: StarOutline
   m_TagString: Untagged
@@ -238,6 +239,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 844324937}
+--- !u!95 &844324941
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 844324937}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &884785881
 Prefab:
   m_ObjectHideFlags: 0
@@ -466,6 +484,8 @@ PlayableDirector:
     value: {fileID: 1511111224}
   - key: {fileID: 114100711925456840, guid: 06d79c3c2cf6a0242aebea0e6f97eea6, type: 2}
     value: {fileID: 2146837147}
+  - key: {fileID: 114078324221315996, guid: 06d79c3c2cf6a0242aebea0e6f97eea6, type: 2}
+    value: {fileID: 844324937}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &996027680

@@ -319,8 +319,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 190079156}
-  - component: {fileID: 190079155}
   - component: {fileID: 190079154}
+  - component: {fileID: 190079155}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -424,10 +424,7 @@ MonoBehaviour:
   musicOff: {fileID: 793341657}
   bgMusic: {fileID: 190079154}
   playMusic: 1
-  sceneNameArray:
-  - MagnetSpeech
-  - UdaraSpeech
-  - PlanetSpeech
+  IntroPlayed: 
   sounds:
   - name: btnClick
     clip: {fileID: 8300000, guid: 3d866f62e64a8254e9602eb3159dd170, type: 3}
@@ -437,6 +434,78 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: yeay
     clip: {fileID: 8300000, guid: b2fe16d67df8bca49a1cda573b633fdb, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: udara
+    clip: {fileID: 8300000, guid: d5bcfa00784e82245be63e4612befe61, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: magnet
+    clip: {fileID: 8300000, guid: 1dc0867cf26a8a844889331b9eb91c7c, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: planet
+    clip: {fileID: 8300000, guid: 8204e8eeb9fa8734bb97fee6524fb3d6, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: panduan
+    clip: {fileID: 8300000, guid: 8a0f4637cc4922147a409feb5183a344, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introMain
+    clip: {fileID: 8300000, guid: 0d612f60835b1d84eae44b64ed158044, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introLevelSelection
+    clip: {fileID: 8300000, guid: a46ed8e6324db554d9ad4ff82dab885c, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introUdara
+    clip: {fileID: 8300000, guid: 345adfb688418404a8bc5afae6e18f53, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introMagnet
+    clip: {fileID: 8300000, guid: cb7c741d081046f41984c1518b717542, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introPlanet
+    clip: {fileID: 8300000, guid: 22d0ec976bb6241429230cc0e7fa6243, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introUdaraSpeech
+    clip: {fileID: 8300000, guid: 7a5e333854d653549bc4f70695c8161e, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introMagnetSpeech
+    clip: {fileID: 8300000, guid: 87e08454aa56a2641a6dc68e68143d8d, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introPlanetSpeech
+    clip: {fileID: 8300000, guid: 552b6de9d3de19f4b8cb44f184cfd4ce, type: 3}
     priority: 0
     volume: 1
     loop: 0

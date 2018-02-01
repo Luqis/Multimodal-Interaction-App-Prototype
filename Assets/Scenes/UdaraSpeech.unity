@@ -402,7 +402,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1817372169}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -421,7 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1047,6 +1047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1583511013783da449e898f06f6553e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playDir: {fileID: 0}
   startRecordingButton: {fileID: 238128393}
   resultText: {fileID: 1124049948}
   rotationText: {fileID: 1770681550}
@@ -1062,7 +1063,7 @@ MonoBehaviour:
   target: {fileID: 1596054260}
   rotationDegree: 0
   targetScale: 1
-  magnetOutline: {fileID: 0}
+  targetOutline: {fileID: 557373325}
 --- !u!4 &1163532630
 Transform:
   m_ObjectHideFlags: 0
@@ -1246,7 +1247,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1817372169}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1767,8 +1768,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1549535351}
-  - {fileID: 557373324}
   - {fileID: 1596054260}
+  - {fileID: 557373324}
   - {fileID: 1770681548}
   - {fileID: 1936816110}
   - {fileID: 654973551}

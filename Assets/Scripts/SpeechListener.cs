@@ -37,9 +37,9 @@ public class SpeechListener : MonoBehaviour
     private float[] scaleDownArray = { 0.90f, 0.85f, 0.75f, 0.60f };
     private List<LanguageOption> languageOptions;
     private string langId = "ms-MY";
-    private string[] magnetKeywords = { "kanan", "gerak", "pusing" };
-    private string[] scaleUpKeywords = { "besar", "zoom" };
-    private string[] scaleDownKeywords = { "kecil", "zoom" };
+    private string[] magnetKeywords = { "putar", "gerak", "pusing" };
+    private string[] scaleUpKeywords = { "besar", "kembang" };
+    private string[] scaleDownKeywords = { "kecil", "masuk" };
     public float rotationDegree = 0;
     public float targetScale = 1;
     public Image targetOutline;
@@ -164,6 +164,7 @@ public class SpeechListener : MonoBehaviour
                 else if (targetScale >= maxScale)
                 {
                     target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
+                    targetOutline.color = new Color(0, 1, 0, 1f);
                     if (endGame)
                     {
                         StartCoroutine(ActiveSuccessPanel());

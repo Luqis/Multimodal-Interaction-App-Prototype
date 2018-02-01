@@ -1013,6 +1013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7471aa0017126c94b8a09a50b77a6970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playDir: {fileID: 0}
   rotationDegree: 0
   rotationText: {fileID: 1770681550}
   successPanel: {fileID: 27976888}
@@ -1024,7 +1025,7 @@ MonoBehaviour:
   maxScale: 3.5
   clips: {fileID: 1581001524}
   magnetPoint: {fileID: 2135479762}
-  magnetOutline: {fileID: 557373325}
+  targetOutline: {fileID: 557373325}
   touchBoundary: {fileID: 1817372169}
   boundary:
     _width: 0
@@ -1561,7 +1562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...'
+  m_Text: "0\u02DA"
 --- !u!1 &1805633241
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ MonoBehaviour:
   m_Tracks:
   - {fileID: 114502620140368496}
   - {fileID: 114214447344842412}
-  m_FixedDuration: 0
+  m_FixedDuration: 4.999999999999
   m_EditorSettings:
     fps: 60
   m_UpdateMode: 0

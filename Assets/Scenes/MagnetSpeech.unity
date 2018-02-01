@@ -2181,6 +2181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1583511013783da449e898f06f6553e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playDir: {fileID: 0}
   startRecordingButton: {fileID: 508942811}
   resultText: {fileID: 1144038165}
   rotationText: {fileID: 1616459885}
@@ -2196,7 +2197,7 @@ MonoBehaviour:
   target: {fileID: 1065037956}
   rotationDegree: 0
   targetScale: 1
-  magnetOutline: {fileID: 557373325}
+  targetOutline: {fileID: 557373325}
 --- !u!1 &1616459882
 GameObject:
   m_ObjectHideFlags: 0

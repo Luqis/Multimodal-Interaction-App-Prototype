@@ -23,10 +23,11 @@ public struct Boundary
 public class TouchManager : MonoBehaviour
 {
     public PlayableDirector playDir;
-    public float rotationDegree = 0;
-    public Text rotationText;
-    public Transform successPanel;
+    public GameObject successPanel;
+    public GameObject dialogBox;
     public Button restartButton;
+    public Text rotationText;
+    public float rotationDegree = 0;
 
     [Header("Touch Mode")]
     public bool scaleUp;
@@ -39,12 +40,11 @@ public class TouchManager : MonoBehaviour
     [SerializeField]
     private float maxScale = 2.5f;
 
-    [Header("Magnet Reference")]
+    [Header("Target Reference")]
     public Transform clips;
     public Transform magnetPoint;
     public Image targetOutline;
-    public Transform touchBoundary;
-    public Boundary boundary;
+    //public Transform touchBoundary;
     public Transform target;
 
     private bool endGame = false;
@@ -55,26 +55,26 @@ public class TouchManager : MonoBehaviour
 
     private void Reset()
     {
-        touchBoundary = GameObject.Find("BoundaryFrame").GetComponent<Transform>();
+        //touchBoundary = GameObject.Find("BoundaryFrame").GetComponent<Transform>();
     }
 
     private void Awake()
     {
-        _width = touchBoundary.GetComponent<RectTransform>().rect.width;
-        _height = touchBoundary.GetComponent<RectTransform>().rect.height;
+        //_width = touchBoundary.GetComponent<RectTransform>().rect.width;
+        //_height = touchBoundary.GetComponent<RectTransform>().rect.height;
 
-        _xPos = touchBoundary.transform.position.x;
-        _yPos = touchBoundary.transform.position.y;
+        //_xPos = touchBoundary.transform.position.x;
+        //_yPos = touchBoundary.transform.position.y;
 
-        boundary = new Boundary(_width, _height, _xPos, _yPos);
-        successPanel = GameObject.Find("SuccessPanel").GetComponent<Transform>();
+        successPanel = GameObject.Find("SuccessPanel");
+        dialogBox = GameObject.Find("DialogBox");
         restartButton = GameObject.Find("Restart-btn").GetComponent<Button>();
-
     }
 
     private void Start()
     {
-        successPanel.gameObject.SetActive(false);
+        successPanel.SetActive(false);
+        dialogBox.SetActive(false);
         restartButton.interactable = false;
         endGame = true;
 
@@ -84,6 +84,8 @@ public class TouchManager : MonoBehaviour
             ScaleObject(false);
         if (rotate)
             RotateObject();
+
+        StartCoroutine(PopUpDialogBox());
     }
 
     private void Update()
@@ -107,7 +109,22 @@ public class TouchManager : MonoBehaviour
         }
     }
 
-    IEnumerator ActiveSuccessPanel()
+    public void StopDialogBoxSound()
+    {
+        AudioManager.instance.Stop("panduan");
+    }
+
+    private IEnumerator PopUpDialogBox()
+    {
+        yield return new WaitForSeconds(4f);
+        dialogBox.SetActive(true);
+        AudioManager.instance.Play("panduan");
+
+        yield return new WaitForSeconds(AudioManager.instance.GetAudioClipLength("panduan"));
+        dialogBox.SetActive(false);
+    }
+
+    private IEnumerator ActiveSuccessPanel()
     {
         if (scaleDown)
         {
@@ -118,7 +135,7 @@ public class TouchManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         AudioManager.instance.Play("yeay");
-        successPanel.gameObject.SetActive(true);
+        successPanel.SetActive(true);
         yield return new WaitForSeconds(3f);
         restartButton.interactable = true;
     }

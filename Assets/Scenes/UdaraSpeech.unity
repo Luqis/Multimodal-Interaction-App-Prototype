@@ -1564,8 +1564,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.5, y: -85.65001}
-  m_SizeDelta: {x: 137.4, y: 121.3}
+  m_AnchoredPosition: {x: 6.5, y: -64}
+  m_SizeDelta: {x: 158.4, y: 78.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1717369465
 MonoBehaviour:
@@ -1593,7 +1593,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 6
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1601,7 +1601,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: '- Besar
 
-    - Zoom'
+    - Kembang'
 --- !u!222 &1717369466
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2017,6 +2017,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1936816110}
     m_Modifications:
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224384911298787570, guid: ba3799dbc450e8d48a79a10b42428851,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -2106,6 +2111,36 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 929076629}
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114998079469492172, guid: ba3799dbc450e8d48a79a10b42428851,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: UdaraSpeech
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba3799dbc450e8d48a79a10b42428851, type: 2}

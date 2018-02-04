@@ -192,7 +192,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 324220631}
         m_MethodName: ButtonClicked
@@ -339,7 +339,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 796bedf37fdbced4e908a96404a95a1b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -506,6 +506,42 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: introPlanetSpeech
     clip: {fileID: 8300000, guid: 552b6de9d3de19f4b8cb44f184cfd4ce, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UdaraSpeech
+    clip: {fileID: 8300000, guid: ae8b491c059d4c04ea0893b04cfa3a76, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MagnetSpeech
+    clip: {fileID: 8300000, guid: 3fc2505506ba4f34b820bcc4da368d29, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlanetSpeech
+    clip: {fileID: 8300000, guid: 584b991a53e6e754abf71dc55fd332b1, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UdaraVideo
+    clip: {fileID: 8300000, guid: 75100fa9a1260d14d9f6aa2761b20d70, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MagnetVideo
+    clip: {fileID: 8300000, guid: 6e3f55ec322e5964a8af125a9500407b, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlanetVideo
+    clip: {fileID: 8300000, guid: d31d6d08df25c6840979319e42221bdf, type: 3}
     priority: 0
     volume: 1
     loop: 0

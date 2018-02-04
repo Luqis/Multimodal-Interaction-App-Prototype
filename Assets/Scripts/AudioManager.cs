@@ -58,28 +58,28 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound: " + name + " not found!");
-            return;
-        }
-        s.source.Play();
+        ValidateSoundName(name).source.Play();
     }
 
-    public float GetAudioClipLength(string name)
+    public void Stop(string name)
+    {
+        ValidateSoundName(name).source.Stop();
+    }
+
+    private Sound ValidateSoundName(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
-            return 0;
         }
-        else
-        {
-            float cliplength = s.source.clip.length;
-            return cliplength;
-        }
+        return s;
+    }
+
+    public float GetAudioClipLength(string name)
+    {
+        float cliplength = ValidateSoundName(name).source.clip.length;
+        return cliplength;
     }
 
     public void CheckSceneName(string name)

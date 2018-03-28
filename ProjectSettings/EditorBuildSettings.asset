@@ -17,3 +17,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MagnetSpeech.unity
     guid: 35724c391dc6d52419bf5ead29d01311
+  - enabled: 1
+    path: Assets/Scenes/MagnetVideo.unity
+    guid: a34505e7d9f0d28408d18fb1755e25d2
+  - enabled: 1
+    path: Assets/Scenes/Udara.unity
+    guid: 9847d2e550c742d4c8a037c0650af914
+  - enabled: 1
+    path: Assets/Scenes/UdaraSpeech.unity
+    guid: 7beb8ed7cc792bd4f905aa40e632fb19
+  - enabled: 1
+    path: Assets/Scenes/UdaraVideo.unity
+    guid: 4389ab7eb75b12f428a1f89d7ffa2cd8
+  - enabled: 1
+    path: Assets/Scenes/Planet.unity
+    guid: 54a22d768a738e3459b720d7129a6738
+  - enabled: 1
+    path: Assets/Scenes/PlanetSpeech.unity
+    guid: 36c0eba8c26214c468268790dcd97bb5
+  - enabled: 1
+    path: Assets/Scenes/PlanetVideo.unity
+    guid: 41c5c83f6f7b6484ab4f4870691b82fd

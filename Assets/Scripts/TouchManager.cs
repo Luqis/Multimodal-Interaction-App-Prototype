@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 [System.Serializable]
 public struct Boundary
 {
-    [SerializeField] float _width;
-    [SerializeField] float _height;
-    [SerializeField] float _xPos;
-    [SerializeField] float _yPos;
+    [SerializeField] private float _width;
+    [SerializeField] private float _height;
+    [SerializeField] private float _xPos;
+    [SerializeField] private float _yPos;
 
     public Boundary(float w, float h, float x, float y)
     {
@@ -20,10 +22,12 @@ public struct Boundary
 
 public class TouchManager : MonoBehaviour
 {
-    //public static TouchManager Instance { set; get; }
-
-    public static float rotationDegree = 0;
-    
+    public PlayableDirector playDir;
+    public GameObject successPanel;
+    public GameObject dialogBox;
+    public Button restartButton;
+    public Text rotationText;
+    public float rotationDegree = 0;
 
     [Header("Touch Mode")]
     public bool scaleUp;
@@ -32,66 +36,126 @@ public class TouchManager : MonoBehaviour
 
     [Header("Scale Limit")]
     [SerializeField]
-    private float minScale = 0.25f;
+    private float minScale = 0.425f;
     [SerializeField]
-    private float maxScale = 3.5f;
+    private float maxScale = 2.5f;
 
-    [Header("GameObject")]
+    [Header("Target Reference")]
     public Transform clips;
     public Transform magnetPoint;
+    public Image targetOutline;
+    //public Transform touchBoundary;
     public Transform target;
-    public Transform touchBoundary;
-    public Boundary boundary;
 
+    private bool endGame = false;
     private float _width;
     private float _height;
     private float _xPos;
     private float _yPos;
 
-    void Reset()
+    private void Reset()
     {
-        touchBoundary = GameObject.Find("BoundaryFrame").GetComponent<Transform>();
+        //touchBoundary = GameObject.Find("BoundaryFrame").GetComponent<Transform>();
     }
 
-    void Awake()
+    private void Awake()
     {
-        _width = touchBoundary.GetComponent<RectTransform>().rect.width;
-        _height = touchBoundary.GetComponent<RectTransform>().rect.height;
+        //_width = touchBoundary.GetComponent<RectTransform>().rect.width;
+        //_height = touchBoundary.GetComponent<RectTransform>().rect.height;
 
-        _xPos = touchBoundary.transform.position.x;
-        _yPos = touchBoundary.transform.position.y;
+        //_xPos = touchBoundary.transform.position.x;
+        //_yPos = touchBoundary.transform.position.y;
 
-        boundary = new Boundary(_width, _height, _xPos, _yPos);
+        successPanel = GameObject.Find("SuccessPanel");
+        dialogBox = GameObject.Find("DialogBox");
+        restartButton = GameObject.Find("Restart-btn").GetComponent<Button>();
     }
 
-    void Start()
+    private void Start()
     {
+        successPanel.SetActive(false);
+        dialogBox.SetActive(false);
+        restartButton.interactable = false;
+        endGame = true;
+
         if (scaleUp)
             ScaleObject(true);
         if (scaleDown)
             ScaleObject(false);
         if (rotate)
             RotateObject();
+
+        StartCoroutine(PopUpDialogBox());
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (rotationDegree <= 305f && rotationDegree >= 295f)
+        if (rotate)
         {
-            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            if (rotationDegree <= 305f && rotationDegree >= 295f)
+            {
+                clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+                if (clips.position == magnetPoint.position && endGame)
+                {
+                    StartCoroutine(ActiveSuccessPanel());
+                    endGame = false;
+                }
+                targetOutline.color = new Color(0, 1, 0, 0.5f);
+            }
+            else
+                targetOutline.color = new Color(1, 0, 0, 0.5f);
+
+            UpdateDegreeOfRotationText();
         }
+    }
+
+    public void StopDialogBoxSound()
+    {
+        AudioManager.instance.Stop("panduan");
+    }
+
+    private IEnumerator PopUpDialogBox()
+    {
+        yield return new WaitForSeconds(4f);
+        dialogBox.SetActive(true);
+        AudioManager.instance.Play("panduan");
+
+        yield return new WaitForSeconds(AudioManager.instance.GetAudioClipLength("panduan"));
+        dialogBox.SetActive(false);
+    }
+
+    private IEnumerator ActiveSuccessPanel()
+    {
+        if (scaleDown)
+        {
+            yield return new WaitForSeconds(1f);
+            playDir.Play();
+            yield return new WaitForSeconds(2f);
+        }
+
+        yield return new WaitForSeconds(1f);
+        AudioManager.instance.Play("yeay");
+        successPanel.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        restartButton.interactable = true;
+    }
+
+    private void UpdateDegreeOfRotationText()
+    {
+        if (rotationDegree >= 0 && rotationDegree < 15)
+        {
+            rotationText.text = "0˚";
+        }
+        else
+            rotationText.text = (360f - rotationDegree).ToString("0.#") + "˚";
     }
 
     public void ScaleObject(bool up)
     {
-        float scaleFactor = 1.5f;
-        float xOffset = _xPos - (_width * scaleFactor - _width) / 2f;
-        float yOffset = _yPos - (_height * scaleFactor - _width) / 2f;
-
+        float scaleFactor = 0.25f;
         var recognizer = new TKPinchRecognizer
         {
             //boundaryFrame = new TKRect(xOffset, yOffset, _width * scaleFactor, _height * scaleFactor)
-            
         };
 
         recognizer.gestureRecognizedEvent += (r) =>
@@ -99,16 +163,24 @@ public class TouchManager : MonoBehaviour
             if (up)
             {
                 if (recognizer.deltaScale > 0)
-                    target.transform.localScale += Vector3.one * Mathf.Abs(recognizer.deltaScale);
-                if (target.transform.localScale.z >= maxScale)
+                    target.transform.localScale += Vector3.one * scaleFactor * Mathf.Abs(recognizer.deltaScale);
+                if (target.transform.localScale.x >= maxScale)
+                {
                     target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
+                    targetOutline.color = new Color(0, 1, 0, 1f);
+                    StartCoroutine(ActiveSuccessPanel());
+                }
             }
             else
             {
                 if (recognizer.deltaScale < 0)
-                    target.transform.localScale += Vector3.one * -Mathf.Abs(recognizer.deltaScale);
-                if (target.transform.localScale.z < minScale)
+                    target.transform.localScale += Vector3.one * scaleFactor * -Mathf.Abs(recognizer.deltaScale);
+                if (target.transform.localScale.x < minScale)
+                {
                     target.transform.localScale = new Vector3(minScale, minScale, minScale);
+                    targetOutline.color = new Color(0, 1, 0, 1f);
+                    StartCoroutine(ActiveSuccessPanel());
+                }
             }
             Debug.Log("pinch recognizer fired: " + r);
         };
@@ -145,13 +217,5 @@ public class TouchManager : MonoBehaviour
             rotationDegree = _degreeOfRotation;
         };
         TouchKit.addGestureRecognizer(recognizer);
-    }
-
-    public void RotateObjectVoice(float angle)
-    {
-        //Quaternion q = Quaternion.Euler(0, 0, angle);
-        //target.transform.rotation = Quaternion.Lerp(target.rotation, q, Time.deltaTime * 5f);
-        target.Rotate(0, 0, 15f);
-        
     }
 }

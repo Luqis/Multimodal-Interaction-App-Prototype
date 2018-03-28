@@ -32,9 +32,9 @@ public class SpeechListener : MonoBehaviour
     public Transform magnetPoint;
     public Transform target;
 
-    private float[] rotationDegrees = { 355f, 345f, 330f }; //{ 350f, 340f, 330f, 320f, 310f };
-    private float[] scaleUpArray = { 1.25f, 1.5f, 1.75f, 2.25f };
-    private float[] scaleDownArray = { 0.90f, 0.85f, 0.75f, 0.60f };
+    private float[] rotationDegrees = { 340f, 320f }; //{ 350f, 340f, 330f, 320f, 310f };
+    private float[] scaleUpArray = { 1.5f, 2.25f };//{ 1.25f, 1.5f, 1.75f, 2.25f };
+    private float[] scaleDownArray = { 0.85f, 0.60f };//{ 0.90f, 0.85f, 0.75f, 0.60f };
     private List<LanguageOption> languageOptions;
     private string langId = "ms-MY";
     private string[] magnetKeywords = { "putar", "gerak", "pusing" };
@@ -53,6 +53,14 @@ public class SpeechListener : MonoBehaviour
         restartButton = GameObject.Find("Restart-btn").GetComponent<Button>();
     }
 
+    private void Metd()
+    {
+        for (int i = 0; i <= rotationDegrees.Length; i++)
+        {
+            rotationDegrees[i] = (5f + 5f * i) / 60f * 100;
+        }
+    }
+
     private void Start()
     {
         successPanel.gameObject.SetActive(false);
@@ -61,7 +69,7 @@ public class SpeechListener : MonoBehaviour
 
         if (SpeechRecognizer.ExistsOnDevice())
         {
-            SpeechRecognizerListener listener = GameObject.FindObjectOfType<SpeechRecognizerListener>();
+            SpeechRecognizerListener listener = FindObjectOfType<SpeechRecognizerListener>();
             listener.onAuthorizationStatusFetched.AddListener(OnAuthorizationStatusFetched);
             listener.onAvailabilityChanged.AddListener(OnAvailabilityChange);
             listener.onErrorDuringRecording.AddListener(OnError);

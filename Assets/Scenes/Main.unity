@@ -287,9 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0abee1141f0d6f4abfa85b5835bcd54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SettingPanel: {fileID: 0}
-  musicOn: {fileID: 0}
-  musicOff: {fileID: 0}
+  musicOn: {fileID: 503721952}
+  musicOff: {fileID: 821333592}
   bgMusic: {fileID: 190079154}
   playMusic: 1
   IntroPlayed: 
@@ -1044,8 +1043,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 19.600006}
-  m_SizeDelta: {x: 150.19995, y: 131.6}
+  m_AnchoredPosition: {x: -20.300049, y: 29}
+  m_SizeDelta: {x: 149.9, y: 131.3}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &821333590
 GameObject:
@@ -1064,7 +1063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &821333591
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1080,8 +1079,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 13.6}
-  m_SizeDelta: {x: 150.19995, y: 131.6}
+  m_AnchoredPosition: {x: -20.300049, y: 23}
+  m_SizeDelta: {x: 149.9, y: 131.3}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &821333592
 MonoBehaviour:
@@ -1465,6 +1464,52 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1029471863}
+--- !u!1 &1183732852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1183732854}
+  - component: {fileID: 1183732853}
+  m_Layer: 0
+  m_Name: GameControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1183732853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1183732852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3e4e0aa953801478e0cad8d0306760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateTouchTask: 000000
+  rotateSpeechTask: 
+  zoomInTouchTask: 000000
+  zoomInSpeechTask: 
+  zoomOutTouchTask: 000000
+  zoomOutSpeechTask: 
+--- !u!4 &1183732854
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1183732852}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1243780718
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -22,12 +23,14 @@ public struct Boundary
 
 public class TouchManager : MonoBehaviour
 {
+    #region General Variables
     public PlayableDirector playDir;
     public GameObject successPanel;
     public GameObject dialogBox;
-    public Button restartButton;
+    public GameObject micBtn;
     public Text rotationText;
     public float rotationDegree = 0;
+    public int taskNo;
 
     [Header("Touch Mode")]
     public bool scaleUp;
@@ -44,7 +47,6 @@ public class TouchManager : MonoBehaviour
     public Transform clips;
     public Transform magnetPoint;
     public Image targetOutline;
-    //public Transform touchBoundary;
     public Transform target;
 
     private bool endGame = false;
@@ -52,6 +54,8 @@ public class TouchManager : MonoBehaviour
     private float _height;
     private float _xPos;
     private float _yPos;
+    private Scene sc;
+    #endregion
 
     private void Reset()
     {
@@ -60,32 +64,33 @@ public class TouchManager : MonoBehaviour
 
     private void Awake()
     {
-        //_width = touchBoundary.GetComponent<RectTransform>().rect.width;
-        //_height = touchBoundary.GetComponent<RectTransform>().rect.height;
-
-        //_xPos = touchBoundary.transform.position.x;
-        //_yPos = touchBoundary.transform.position.y;
-
+        sc = SceneManager.GetActiveScene();
+        micBtn = GameObject.Find("Mic-btn");
         successPanel = GameObject.Find("SuccessPanel");
         dialogBox = GameObject.Find("DialogBox");
-        restartButton = GameObject.Find("Restart-btn").GetComponent<Button>();
     }
 
     private void Start()
     {
+        micBtn.SetActive(false);
         successPanel.SetActive(false);
         dialogBox.SetActive(false);
-        restartButton.interactable = false;
+        //restartButton.interactable = false;
         endGame = true;
 
-        if (scaleUp)
+        if (scaleUp && !GameControl.instance.zoomInTouchTask[taskNo])
             ScaleObject(true);
-        if (scaleDown)
+        else if (scaleDown && !GameControl.instance.zoomOutTouchTask[taskNo])
             ScaleObject(false);
-        if (rotate)
+        else if (rotate && !GameControl.instance.rotateTouchTask[taskNo])
             RotateObject();
+        else
+        {
+            successPanel.SetActive(true);
+            micBtn.SetActive(true);
+        }
 
-        StartCoroutine(PopUpDialogBox());
+        StartCor();
     }
 
     private void Update()
@@ -99,6 +104,7 @@ public class TouchManager : MonoBehaviour
                 {
                     StartCoroutine(ActiveSuccessPanel());
                     endGame = false;
+                    GameControl.instance.rotateTouchTask[taskNo] = true;
                 }
                 targetOutline.color = new Color(0, 1, 0, 0.5f);
             }
@@ -109,12 +115,24 @@ public class TouchManager : MonoBehaviour
         }
     }
 
+    public void StartCor()
+    {
+        bool IntroPlayed = AudioManager.instance.IntroPlayed[sc.buildIndex];
+        if (!IntroPlayed)
+            StartCoroutine(PopUpDialogBox());
+    }
+
+    public void StopCor()
+    {
+        StopCoroutine(PopUpDialogBox());
+    }
+
     public void StopDialogBoxSound()
     {
         AudioManager.instance.Stop("panduan");
     }
 
-    private IEnumerator PopUpDialogBox()
+    public IEnumerator PopUpDialogBox()
     {
         yield return new WaitForSeconds(4f);
         dialogBox.SetActive(true);
@@ -137,7 +155,7 @@ public class TouchManager : MonoBehaviour
         AudioManager.instance.Play("yeay");
         successPanel.SetActive(true);
         yield return new WaitForSeconds(3f);
-        restartButton.interactable = true;
+        micBtn.SetActive(true);
     }
 
     private void UpdateDegreeOfRotationText()
@@ -169,6 +187,7 @@ public class TouchManager : MonoBehaviour
                     target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
                     targetOutline.color = new Color(0, 1, 0, 1f);
                     StartCoroutine(ActiveSuccessPanel());
+                    GameControl.instance.zoomInTouchTask[taskNo] = true;
                 }
             }
             else
@@ -180,6 +199,7 @@ public class TouchManager : MonoBehaviour
                     target.transform.localScale = new Vector3(minScale, minScale, minScale);
                     targetOutline.color = new Color(0, 1, 0, 1f);
                     StartCoroutine(ActiveSuccessPanel());
+                    GameControl.instance.zoomOutTouchTask[taskNo] = true;
                 }
             }
             Debug.Log("pinch recognizer fired: " + r);

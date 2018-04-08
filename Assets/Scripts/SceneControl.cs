@@ -2,10 +2,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChangeScene : MonoBehaviour
+public class SceneControl : MonoBehaviour
 {
-    public string currentSceneSound = "";
+    public string currentSceneSound = string.Empty;
     private Scene sc;
+    private bool CR_running;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class ChangeScene : MonoBehaviour
 
     private IEnumerator PlaySceneIntroSound(string sceneName)
     {
+        CR_running = true;
+
         bool IntroPlayed = AudioManager.instance.IntroPlayed[sc.buildIndex];
         currentSceneSound = "intro" + sceneName;
         CheckSceneName(ref currentSceneSound, ref IntroPlayed);
@@ -48,14 +51,33 @@ public class ChangeScene : MonoBehaviour
             yield return new WaitForSeconds(cliplength);
             AudioManager.instance.bgMusic.volume = 0.25f;
         }
+        CR_running = false;
     }
 
     public void GoToScene(string sceneName)
     {
         AudioManager.instance.Stop(currentSceneSound);
+        AudioManager.instance.Stop("panduan");
         AudioManager.instance.bgMusic.volume = 0.25f;
         StopCoroutine(PlaySceneIntroSound(sc.name));
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void ToggleSceneIntroSound()
+    {
+        bool status = AudioManager.instance.IsPlaying(currentSceneSound);
+
+        if (status)
+        {
+            AudioManager.instance.Stop(currentSceneSound);
+            AudioManager.instance.bgMusic.volume = 0.25f;
+            StopCoroutine(PlaySceneIntroSound(sc.name));
+        }
+        else if (!CR_running)
+        {
+            AudioManager.instance.IntroPlayed[sc.buildIndex] = false;
+            StartCoroutine(PlaySceneIntroSound(sc.name));
+        }
     }
 
     public void QuitGame()
@@ -72,5 +94,12 @@ public class ChangeScene : MonoBehaviour
     {
         AudioManager.instance.Play("btnClick");
         AudioManager.instance.Play(soundName);
+    }
+
+    public void BtnClkStopSound()
+    {
+        AudioManager.instance.Stop(currentSceneSound);
+        AudioManager.instance.bgMusic.volume = 0.25f;
+        StopCoroutine(PlaySceneIntroSound(sc.name));
     }
 }

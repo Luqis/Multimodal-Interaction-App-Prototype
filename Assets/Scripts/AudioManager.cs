@@ -7,8 +7,6 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    public GameObject SettingPanel = null;
-
     public Button musicOn;
     public Button musicOff;
     public AudioSource bgMusic;
@@ -34,6 +32,9 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         LoopSoundArray();
+
+        if (playMusic)
+            musicOff.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -66,6 +67,12 @@ public class AudioManager : MonoBehaviour
         ValidateSoundName(name).source.Stop();
     }
 
+    public bool IsPlaying(string name)
+    {
+        bool status = ValidateSoundName(name).source.isPlaying;
+        return status;
+    }
+
     private Sound ValidateSoundName(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -95,21 +102,22 @@ public class AudioManager : MonoBehaviour
 
         if (name == "Main")
         {
-            SettingPanel = GameObject.Find("SettingPanel");
-            if (SettingPanel != null)
+            GameObject obj, obj2;
+            obj = GameObject.Find("BtnSoundOn");
+            obj2 = GameObject.Find("BtnSoundOff");
+
+            if (obj != null && obj2 != null)
             {
-                musicOn = GameObject.Find("BtnYes").GetComponent<Button>();
-                musicOff = GameObject.Find("BtnNo").GetComponent<Button>();
-
-                if (musicOff.IsActive())
-                {
-                    musicOff.onClick.AddListener(DisableBgMusic);
-                }
-
+                musicOn = obj.GetComponent<Button>();
                 if (musicOn.IsActive())
-                {
-                    musicOn.onClick.AddListener(EnableBgMusic);
-                }
+                    musicOn.onClick.AddListener(DisableBgMusic);
+
+                musicOff = obj2.GetComponent<Button>();
+                if (musicOff.IsActive())
+                    musicOff.onClick.AddListener(EnableBgMusic);
+
+                if (playMusic)
+                    musicOff.gameObject.SetActive(false);
             }
         }
     }

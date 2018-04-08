@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 76153d34cd7ef0d4c98cb8f04dc3701b
+timeCreated: 1523154454
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Letters for Learners
+  fontNames:
+  - Letters for Learners
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

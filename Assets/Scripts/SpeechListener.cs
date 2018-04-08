@@ -12,8 +12,10 @@ public class SpeechListener : MonoBehaviour
     public Button startRecordingButton;
     public Text resultText;
     public Text rotationText;
-    public Transform successPanel;
-    public Button restartButton;
+    public GameObject successPanel;
+    public GameObject radial;
+    //public Button restartButton;
+    public int taskNo;
     private bool endGame = false;
 
     [Header("Speech Mode")]
@@ -48,9 +50,6 @@ public class SpeechListener : MonoBehaviour
     {
         SetLanguage(langId);
         DisableBgMusic();
-
-        successPanel = GameObject.Find("SuccessPanel").GetComponent<Transform>();
-        restartButton = GameObject.Find("Restart-btn").GetComponent<Button>();
     }
 
     private void Metd()
@@ -63,8 +62,9 @@ public class SpeechListener : MonoBehaviour
 
     private void Start()
     {
-        successPanel.gameObject.SetActive(false);
-        restartButton.interactable = false;
+        radial.SetActive(false);
+        successPanel.SetActive(false);
+        //restartButton.interactable = false;
         endGame = true;
 
         if (SpeechRecognizer.ExistsOnDevice())
@@ -84,7 +84,7 @@ public class SpeechListener : MonoBehaviour
         }
         else
         {
-            resultText.text = "Sorry, but this device doesn't support speech recognition";
+            resultText.text = "Maaf. Rosak!";
             startRecordingButton.interactable = false;
         }
     }
@@ -104,6 +104,7 @@ public class SpeechListener : MonoBehaviour
                 if (clips.position == magnetPoint.position && endGame)
                 {
                     StartCoroutine(ActiveSuccessPanel());
+                    GameControl.instance.rotateSpeechTask[taskNo] = true;
                     endGame = false;
                 }
                 targetOutline.color = new Color(0, 1, 0, 0.5f);
@@ -111,15 +112,19 @@ public class SpeechListener : MonoBehaviour
             else
                 targetOutline.color = new Color(1, 0, 0, 0.5f);
         }
-
-        if (scaleUp)
+        else if (scaleUp)
         {
             VerifyKeyword(scaleUpKeywords);
         }
-
-        if (scaleDown)
+        else if (scaleDown)
         {
             VerifyKeyword(scaleDownKeywords);
+        }
+
+        if (radial.gameObject.activeSelf)
+        {
+            radial.transform.Rotate(Vector3.forward);
+            resultText.color = Color.black;
         }
     }
 
@@ -136,7 +141,7 @@ public class SpeechListener : MonoBehaviour
         AudioManager.instance.Play("yeay");
         successPanel.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
-        restartButton.interactable = true;
+        //restartButton.interactable = true;
     }
 
     private void VerifyKeyword(string[] keywords)
@@ -146,6 +151,7 @@ public class SpeechListener : MonoBehaviour
             if (Array.Exists(keywords, word => word == resultText.text))
             {
                 target.Rotate(0, 0, -1f);
+                resultText.color = new Color(0, 1f, 0);
 
                 if (Array.Exists(rotationDegrees, degree => degree == rotationDegree) || rotationDegree <= 300f)
                 {
@@ -154,6 +160,10 @@ public class SpeechListener : MonoBehaviour
                 }
 
                 UpdateDegreeOfRotationText();
+            }
+            else
+            {
+                resultText.color = new Color(1f, 0, 0);
             }
         }
 
@@ -247,7 +257,7 @@ public class SpeechListener : MonoBehaviour
         startRecordingButton.enabled = available;
         if (!available)
         {
-            resultText.text = "Speech Recognition not available";
+            resultText.text = "Ada sesuatu tidak kena";
         }
         else
         {
@@ -280,6 +290,7 @@ public class SpeechListener : MonoBehaviour
     {
         Debug.LogError(error);
         resultText.text = "Cuba lagi!";
+        resultText.color = new Color(0, 0, 1f);
         //resultText.text = "Try again! [" + error + "]";
     }
 
@@ -291,6 +302,7 @@ public class SpeechListener : MonoBehaviour
         startRecordingButton.interactable = false;
         SpeechRecognizer.StartRecording(true);
         resultText.text = "Cakap sesuatu";
+        radial.SetActive(true);
         StartCoroutine(SpeechRecognitionProcess());
     }
 
@@ -301,13 +313,12 @@ public class SpeechListener : MonoBehaviour
         while (time != 0)
         {
             time--;
-            startRecordingButton.GetComponentInChildren<Text>().text = "<" + time + ">";
             yield return new WaitForSeconds(1f);
         }
 
         SpeechRecognizer.StopIfRecording();
         startRecordingButton.interactable = true;
-        startRecordingButton.GetComponentInChildren<Text>().text = "Mula rakaman";
+        radial.SetActive(false);
     }
 
     private void DisableBgMusic()

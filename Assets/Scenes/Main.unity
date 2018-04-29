@@ -291,6 +291,7 @@ MonoBehaviour:
   musicOff: {fileID: 821333592}
   bgMusic: {fileID: 190079154}
   playMusic: 1
+  hasSound: 1
   IntroPlayed: 
   sounds:
   - name: btnClick
@@ -536,6 +537,11 @@ Prefab:
     - target: {fileID: 4525032384716944, guid: 936aa60baf7671c4989de104298de370, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114031582142105788, guid: 936aa60baf7671c4989de104298de370,
+        type: 2}
+      propertyPath: hasIntroSound
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 936aa60baf7671c4989de104298de370, type: 2}
@@ -1492,11 +1498,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateTouchTask: 000000
-  rotateSpeechTask: 
+  rotateSpeechTask: 000000
   zoomInTouchTask: 000000
-  zoomInSpeechTask: 
+  zoomInSpeechTask: 000000
   zoomOutTouchTask: 000000
-  zoomOutSpeechTask: 
+  zoomOutSpeechTask: 000000
 --- !u!4 &1183732854
 Transform:
   m_ObjectHideFlags: 0

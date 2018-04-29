@@ -14,14 +14,19 @@ public class SpeechListener : MonoBehaviour
     public Text rotationText;
     public GameObject successPanel;
     public GameObject radial;
-    //public Button restartButton;
     public int taskNo;
     private bool endGame = false;
+    public float rotationDegree = 0;
+    public float targetScale = 1;
+    public Color32 finalColor = new Color32(255, 100, 50, 255);
 
     [Header("Speech Mode")]
     public bool scaleUp;
     public bool scaleDown;
     public bool rotate;
+    private bool scaleUpStatus = false;
+    private bool scaleDownStatus = false;
+    private bool rotateStatus = false;
 
     [Header("Scale Limit")]
     [SerializeField]
@@ -29,11 +34,21 @@ public class SpeechListener : MonoBehaviour
     [SerializeField]
     private float maxScale = 2.5f;
 
+    [Header("Rotate Range")]
+    public float rotateLimit;
+    public float upperLimit = 0;
+    public float lowerLimit = 0;
+
     [Header("Magnet Reference")]
     public Transform clips;
     public Transform magnetPoint;
+    public Image targetImg;
     public Transform target;
+    public Image targetOutline;
 
+    [Header("Attribute")]
+    public float rotationLimit = 0;
+    [SerializeField]
     private float[] rotationDegrees = { 340f, 320f }; //{ 350f, 340f, 330f, 320f, 310f };
     private float[] scaleUpArray = { 1.5f, 2.25f };//{ 1.25f, 1.5f, 1.75f, 2.25f };
     private float[] scaleDownArray = { 0.85f, 0.60f };//{ 0.90f, 0.85f, 0.75f, 0.60f };
@@ -42,26 +57,40 @@ public class SpeechListener : MonoBehaviour
     private string[] magnetKeywords = { "putar", "gerak", "pusing" };
     private string[] scaleUpKeywords = { "besar", "kembang" };
     private string[] scaleDownKeywords = { "kecil", "masuk" };
-    public float rotationDegree = 0;
-    public float targetScale = 1;
-    public Image targetOutline;
 
     private void Awake()
     {
         SetLanguage(langId);
         DisableBgMusic();
+
+        rotationLimit = 360f - rotateLimit;
+        upperLimit = rotationLimit + 2.5f;
+        lowerLimit = rotationLimit - 2.5f;
+        RotationArray();
     }
 
-    private void Metd()
+    private void RotationArray()
     {
-        for (int i = 0; i <= rotationDegrees.Length; i++)
+        for (int i = 0; i < rotationDegrees.Length; i++)
         {
-            rotationDegrees[i] = (5f + 5f * i) / 60f * 100;
+            rotationDegrees[i] = rotateLimit / 3 * (i + 1) + rotationLimit;
         }
     }
 
     private void Start()
     {
+#if UNITY_EDITOR
+        if (scaleUp && !GameControl.instance.zoomInSpeechTask[taskNo])
+            scaleUpStatus = true;
+        else if (scaleDown && !GameControl.instance.zoomOutSpeechTask[taskNo])
+            scaleDownStatus = true;
+        else if (rotate && !GameControl.instance.rotateSpeechTask[taskNo])
+            rotateStatus = true;
+        else
+        {
+            successPanel.SetActive(true);
+        }
+#else
         radial.SetActive(false);
         successPanel.SetActive(false);
         //restartButton.interactable = false;
@@ -87,6 +116,19 @@ public class SpeechListener : MonoBehaviour
             resultText.text = "Maaf. Rosak!";
             startRecordingButton.interactable = false;
         }
+
+        if (scaleUp && !GameControl.instance.zoomInSpeechTask[taskNo])
+            scaleUpStatus = true;
+        else if (scaleDown && !GameControl.instance.zoomOutSpeechTask[taskNo])
+            scaleDownStatus = true;
+        else if (rotate && !GameControl.instance.rotateSpeechTask[taskNo])
+            rotateStatus = true;
+        else
+        {
+            successPanel.SetActive(true);
+            //micBtn.SetActive(true);
+        }
+#endif
     }
 
     private void Update()
@@ -94,29 +136,23 @@ public class SpeechListener : MonoBehaviour
         rotationDegree = target.transform.eulerAngles.z;
         targetScale = target.transform.localScale.x;
 
-        if (rotate)
+        if (rotateStatus)
         {
             VerifyKeyword(magnetKeywords);
 
-            if (rotationDegree <= 305f && rotationDegree >= 295f)
+            if (rotationDegree <= upperLimit && rotationDegree >= lowerLimit)
             {
-                clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
-                if (clips.position == magnetPoint.position && endGame)
-                {
-                    StartCoroutine(ActiveSuccessPanel());
-                    GameControl.instance.rotateSpeechTask[taskNo] = true;
-                    endGame = false;
-                }
+                RotateTask(taskNo);
                 targetOutline.color = new Color(0, 1, 0, 0.5f);
             }
             else
                 targetOutline.color = new Color(1, 0, 0, 0.5f);
         }
-        else if (scaleUp)
+        else if (scaleUpStatus)
         {
             VerifyKeyword(scaleUpKeywords);
         }
-        else if (scaleDown)
+        else if (scaleDownStatus)
         {
             VerifyKeyword(scaleDownKeywords);
         }
@@ -126,6 +162,39 @@ public class SpeechListener : MonoBehaviour
             radial.transform.Rotate(Vector3.forward);
             resultText.color = Color.black;
         }
+    }
+
+    private void RotateTask(int num)
+    {
+        if (num == 0)
+        {
+            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            if (clips.position == magnetPoint.position && endGame)
+            {
+                StartCoroutine(ActiveSuccessPanel());
+                endGame = false;
+            }
+        }
+        else if (num == 1)
+        {
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, Time.deltaTime);
+            if (targetImg.color == finalColor && endGame)
+            {
+                StartCoroutine(ActiveSuccessPanel());
+                endGame = false;
+            }
+        }
+        else if (num == 2)
+        {
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, Time.deltaTime);
+            if (targetImg.color == finalColor && endGame)
+            {
+                StartCoroutine(ActiveSuccessPanel());
+                endGame = false;
+            }
+        }
+
+        GameControl.instance.rotateSpeechTask[num] = true;
     }
 
     IEnumerator ActiveSuccessPanel()
@@ -153,7 +222,7 @@ public class SpeechListener : MonoBehaviour
                 target.Rotate(0, 0, -1f);
                 resultText.color = new Color(0, 1f, 0);
 
-                if (Array.Exists(rotationDegrees, degree => degree == rotationDegree) || rotationDegree <= 300f)
+                if (Array.Exists(rotationDegrees, degree => degree == rotationDegree) || rotationDegree <= rotationLimit)
                 {
                     resultText.text = "...";
                     SpeechRecognizer.StopIfRecording();
@@ -186,6 +255,7 @@ public class SpeechListener : MonoBehaviour
                     if (endGame)
                     {
                         StartCoroutine(ActiveSuccessPanel());
+                        GameControl.instance.zoomInSpeechTask[taskNo] = true;
                         endGame = false;
                     }
                 }
@@ -212,6 +282,7 @@ public class SpeechListener : MonoBehaviour
                     if (endGame)
                     {
                         StartCoroutine(ActiveSuccessPanel());
+                        GameControl.instance.zoomOutSpeechTask[taskNo] = true;
                         endGame = false;
                     }
                 }

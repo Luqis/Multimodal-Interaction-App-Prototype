@@ -23,6 +23,7 @@ public struct Boundary
 
 public class TouchManager : MonoBehaviour
 {
+
     #region General Variables
     public PlayableDirector playDir;
     public GameObject successPanel;
@@ -31,6 +32,8 @@ public class TouchManager : MonoBehaviour
     public Text rotationText;
     public float rotationDegree = 0;
     public int taskNo;
+    public bool endGame = false;
+    public Color32 finalColor = new Color32(255, 100, 50, 255);
 
     [Header("Touch Mode")]
     public bool scaleUp;
@@ -43,13 +46,19 @@ public class TouchManager : MonoBehaviour
     [SerializeField]
     private float maxScale = 2.5f;
 
+    [Header("Rotate Range")]
+    public float rotateLimit;
+    public float upperLimit = 0;
+    public float lowerLimit = 0;
+    private float degreeLimit;
+
     [Header("Target Reference")]
     public Transform clips;
     public Transform magnetPoint;
     public Image targetOutline;
+    public Image targetImg;
     public Transform target;
 
-    private bool endGame = false;
     private float _width;
     private float _height;
     private float _xPos;
@@ -59,7 +68,7 @@ public class TouchManager : MonoBehaviour
 
     private void Reset()
     {
-        //touchBoundary = GameObject.Find("BoundaryFrame").GetComponent<Transform>();
+
     }
 
     private void Awake()
@@ -68,13 +77,21 @@ public class TouchManager : MonoBehaviour
         micBtn = GameObject.Find("Mic-btn");
         successPanel = GameObject.Find("SuccessPanel");
         dialogBox = GameObject.Find("DialogBox");
+
+        degreeLimit = 360f - rotateLimit;
+        upperLimit = degreeLimit + 2.5f;
+        lowerLimit = degreeLimit - 2.5f;
     }
 
     private void Start()
     {
         micBtn.SetActive(false);
         successPanel.SetActive(false);
-        dialogBox.SetActive(false);
+        if (sc.name == "Magnet" || sc.name == "Planet" || sc.name == "Udara")
+        {
+            dialogBox.SetActive(false);
+            StartCor();
+        }
         //restartButton.interactable = false;
         endGame = true;
 
@@ -89,23 +106,15 @@ public class TouchManager : MonoBehaviour
             successPanel.SetActive(true);
             micBtn.SetActive(true);
         }
-
-        StartCor();
     }
 
     private void Update()
     {
         if (rotate)
         {
-            if (rotationDegree <= 305f && rotationDegree >= 295f)
+            if (rotationDegree <= upperLimit && rotationDegree >= lowerLimit)
             {
-                clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
-                if (clips.position == magnetPoint.position && endGame)
-                {
-                    StartCoroutine(ActiveSuccessPanel());
-                    endGame = false;
-                    GameControl.instance.rotateTouchTask[taskNo] = true;
-                }
+                RotateTask(taskNo);
                 targetOutline.color = new Color(0, 1, 0, 0.5f);
             }
             else
@@ -113,6 +122,39 @@ public class TouchManager : MonoBehaviour
 
             UpdateDegreeOfRotationText();
         }
+    }
+
+    private void RotateTask(int num)
+    {
+        if (num == 0)
+        {
+            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            if (clips.position == magnetPoint.position && endGame)
+            {
+                StartCoroutine(ActiveSuccessPanel());
+                endGame = false;
+            }
+        }
+        else if (num == 1)
+        {
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, Time.deltaTime);
+            if (targetImg.color == finalColor && endGame)
+            {
+                StartCoroutine(ActiveSuccessPanel());
+                endGame = false;
+            }
+        }
+        else if (num == 2)
+        {
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, Time.deltaTime);
+            if (targetImg.color == finalColor && endGame)
+            {
+                StartCoroutine(ActiveSuccessPanel());
+                endGame = false;
+            }
+        }
+
+        GameControl.instance.rotateTouchTask[num] = true;
     }
 
     public void StartCor()
@@ -148,10 +190,10 @@ public class TouchManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             playDir.Play();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds((float)playDir.duration + 0.5f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.15f);
         AudioManager.instance.Play("yeay");
         successPanel.SetActive(true);
         yield return new WaitForSeconds(3f);

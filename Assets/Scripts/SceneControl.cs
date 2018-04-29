@@ -4,7 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneControl : MonoBehaviour
 {
+    public static SceneControl instance;
+
     public string currentSceneSound = string.Empty;
+    public bool hasIntroSound;
     private Scene sc;
     private bool CR_running;
 
@@ -15,7 +18,8 @@ public class SceneControl : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(PlaySceneIntroSound(sc.name));
+        if (hasIntroSound)
+            StartCoroutine(PlaySceneIntroSound(sc.name));
     }
 
     private void Update()
@@ -56,10 +60,14 @@ public class SceneControl : MonoBehaviour
 
     public void GoToScene(string sceneName)
     {
-        AudioManager.instance.Stop(currentSceneSound);
-        AudioManager.instance.Stop("panduan");
+        if (hasIntroSound)
+        {
+            AudioManager.instance.Stop(currentSceneSound);
+            AudioManager.instance.Stop("panduan");
+            StopCoroutine(PlaySceneIntroSound(sc.name));
+
+        }
         AudioManager.instance.bgMusic.volume = 0.25f;
-        StopCoroutine(PlaySceneIntroSound(sc.name));
         SceneManager.LoadScene(sceneName);
     }
 

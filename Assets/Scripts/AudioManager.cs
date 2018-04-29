@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public Button musicOff;
     public AudioSource bgMusic;
     public bool playMusic = true;
+    public bool hasSound = true;
     public bool[] IntroPlayed;
 
     [Header("Sound List")]
@@ -59,12 +60,14 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string name)
     {
-        ValidateSoundName(name).source.Play();
+        if (hasSound)
+            ValidateSoundName(name).source.Play();
     }
 
     public void Stop(string name)
     {
-        ValidateSoundName(name).source.Stop();
+        if (hasSound)
+            ValidateSoundName(name).source.Stop();
     }
 
     public bool IsPlaying(string name)
@@ -79,7 +82,11 @@ public class AudioManager : MonoBehaviour
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
+            hasSound = false;
         }
+        else
+            hasSound = true;
+
         return s;
     }
 
@@ -91,7 +98,7 @@ public class AudioManager : MonoBehaviour
 
     public void CheckSceneName(string name)
     {
-        if (Array.Exists(sceneNameArray, sceneName => sceneName == name))
+        if (name.Contains("Speech"))
         {
             bgMusic.enabled = false;
         }

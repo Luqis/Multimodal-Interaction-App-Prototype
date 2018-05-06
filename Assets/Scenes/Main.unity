@@ -402,14 +402,74 @@ MonoBehaviour:
     volume: 1
     loop: 0
     source: {fileID: 0}
-  - name: MagnetVideo
-    clip: {fileID: 8300000, guid: 6e3f55ec322e5964a8af125a9500407b, type: 3}
+  - name: introMagnet-2
+    clip: {fileID: 8300000, guid: a5081ed3022504840bad8ee5c3a43e95, type: 3}
     priority: 0
     volume: 1
     loop: 0
     source: {fileID: 0}
-  - name: PlanetVideo
-    clip: {fileID: 8300000, guid: d31d6d08df25c6840979319e42221bdf, type: 3}
+  - name: introMagnet-3
+    clip: {fileID: 8300000, guid: 71d6a96c414ed3944b9976d37852d93d, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introMagnetSpeech-2
+    clip: {fileID: 8300000, guid: f4e8054600c19b640b14363aa93df4bc, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introMagnetSpeech-3
+    clip: {fileID: 8300000, guid: 50210647edbb8f74da83b72819b417ab, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introUdara-2
+    clip: {fileID: 8300000, guid: 027533f23d3896a459197ce4da580cd2, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introUdara-3
+    clip: {fileID: 8300000, guid: 6d4f351e6f643834581ca871e5631e53, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introUdaraSpeech-2
+    clip: {fileID: 8300000, guid: 3bf11284cf3a0fa4991636521d2a3d80, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introUdaraSpeech-3
+    clip: {fileID: 8300000, guid: bc5c6ebfda8fad64a8a97b896de843f9, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introPlanet-2
+    clip: {fileID: 8300000, guid: e8adfaaedaa71294db2484814fcb6a83, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introPlanet-3
+    clip: {fileID: 8300000, guid: dcebfe2b465667e44848415b76004c7c, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introPlanetSpeech-2
+    clip: {fileID: 8300000, guid: 46126e7eb302cb4498eb1507bb2d1c45, type: 3}
+    priority: 0
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: introPlanetSpeech-3
+    clip: {fileID: 8300000, guid: 446a4af558b71684db73388ac1615d57, type: 3}
     priority: 0
     volume: 1
     loop: 0

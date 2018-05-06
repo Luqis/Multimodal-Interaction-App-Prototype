@@ -26,6 +26,7 @@ public class TouchManager : MonoBehaviour
 
     #region General Variables
     public PlayableDirector playDir;
+    public SceneControl sceneControl;
     public GameObject successPanel;
     public GameObject dialogBox;
     public GameObject micBtn;
@@ -77,10 +78,12 @@ public class TouchManager : MonoBehaviour
         micBtn = GameObject.Find("Mic-btn");
         successPanel = GameObject.Find("SuccessPanel");
         dialogBox = GameObject.Find("DialogBox");
+        sceneControl = GameControl.FindObjectOfType<SceneControl>();
 
         degreeLimit = 360f - rotateLimit;
         upperLimit = degreeLimit + 2.5f;
         lowerLimit = degreeLimit - 2.5f;
+        StopCoroutine(ActiveSuccessPanel());
     }
 
     private void Start()
@@ -137,7 +140,7 @@ public class TouchManager : MonoBehaviour
         }
         else if (num == 1)
         {
-            targetImg.color = Color.Lerp(targetImg.color, finalColor, Time.deltaTime);
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, 5 * Time.deltaTime);
             if (targetImg.color == finalColor && endGame)
             {
                 StartCoroutine(ActiveSuccessPanel());
@@ -146,7 +149,7 @@ public class TouchManager : MonoBehaviour
         }
         else if (num == 2)
         {
-            targetImg.color = Color.Lerp(targetImg.color, finalColor, Time.deltaTime);
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, 5 * Time.deltaTime);
             if (targetImg.color == finalColor && endGame)
             {
                 StartCoroutine(ActiveSuccessPanel());
@@ -186,7 +189,7 @@ public class TouchManager : MonoBehaviour
 
     private IEnumerator ActiveSuccessPanel()
     {
-        if (scaleDown)
+        if (!rotate)
         {
             yield return new WaitForSeconds(1f);
             playDir.Play();
@@ -207,7 +210,10 @@ public class TouchManager : MonoBehaviour
             rotationText.text = "0˚";
         }
         else
+        {
             rotationText.text = (360f - rotationDegree).ToString("0.#") + "˚";
+            sceneControl.BtnClkStopSound();
+        }
     }
 
     public void ScaleObject(bool up)
@@ -223,11 +229,14 @@ public class TouchManager : MonoBehaviour
             if (up)
             {
                 if (recognizer.deltaScale > 0)
+                {
                     target.transform.localScale += Vector3.one * scaleFactor * Mathf.Abs(recognizer.deltaScale);
+                    sceneControl.BtnClkStopSound();
+                }
                 if (target.transform.localScale.x >= maxScale)
                 {
                     target.transform.localScale = new Vector3(maxScale, maxScale, maxScale);
-                    targetOutline.color = new Color(0, 1, 0, 1f);
+                    targetOutline.color = new Color(0, 1, 0, 0.5f);
                     StartCoroutine(ActiveSuccessPanel());
                     GameControl.instance.zoomInTouchTask[taskNo] = true;
                 }
@@ -235,11 +244,14 @@ public class TouchManager : MonoBehaviour
             else
             {
                 if (recognizer.deltaScale < 0)
+                {
                     target.transform.localScale += Vector3.one * scaleFactor * -Mathf.Abs(recognizer.deltaScale);
+                    sceneControl.BtnClkStopSound();
+                }
                 if (target.transform.localScale.x < minScale)
                 {
                     target.transform.localScale = new Vector3(minScale, minScale, minScale);
-                    targetOutline.color = new Color(0, 1, 0, 1f);
+                    targetOutline.color = new Color(0, 1, 0, 0.5f);
                     StartCoroutine(ActiveSuccessPanel());
                     GameControl.instance.zoomOutTouchTask[taskNo] = true;
                 }

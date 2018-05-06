@@ -36,8 +36,20 @@ EditorBuildSettings:
     path: Assets/Scenes/ZumKeluar/Udara.unity
     guid: 9847d2e550c742d4c8a037c0650af914
   - enabled: 1
+    path: Assets/Scenes/ZumKeluar/Udara-2.unity
+    guid: 965116c1da97f2c4a8e04e76b0800820
+  - enabled: 1
+    path: Assets/Scenes/ZumKeluar/Udara-3.unity
+    guid: 3e2fdbbea1d8a38438e82f20fe4b4d83
+  - enabled: 1
     path: Assets/Scenes/ZumKeluar/UdaraSpeech.unity
     guid: 7beb8ed7cc792bd4f905aa40e632fb19
+  - enabled: 1
+    path: Assets/Scenes/ZumKeluar/UdaraSpeech-2.unity
+    guid: 4363508301137cc43a0cb45640757578
+  - enabled: 1
+    path: Assets/Scenes/ZumKeluar/UdaraSpeech-3.unity
+    guid: 3b6075b55a5361e42927297d9198e5e9
   - enabled: 1
     path: Assets/Scenes/ZumKeluar/UdaraVideo.unity
     guid: 4389ab7eb75b12f428a1f89d7ffa2cd8

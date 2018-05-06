@@ -1145,6 +1145,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114031582142105788, guid: 936aa60baf7671c4989de104298de370,
+        type: 2}
+      propertyPath: hasIntroSound
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 936aa60baf7671c4989de104298de370, type: 2}
   m_IsPrefabParent: 0

@@ -603,11 +603,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114031582142105788, guid: 936aa60baf7671c4989de104298de370,
-        type: 2}
-      propertyPath: hasIntroSound
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 936aa60baf7671c4989de104298de370, type: 2}
   m_IsPrefabParent: 0
@@ -1127,7 +1122,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c6908ca61d9e35a4fa00deaf8152d849, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c459071e4461d44ba5cacc70d548224, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

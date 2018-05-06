@@ -110,4 +110,10 @@ public class SceneControl : MonoBehaviour
         AudioManager.instance.bgMusic.volume = 0.25f;
         StopCoroutine(PlaySceneIntroSound(sc.name));
     }
+
+    public void BtnClkStopSoundName(string soundnm)
+    {
+        AudioManager.instance.Stop(soundnm);
+    }
+
 }

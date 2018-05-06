@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
     [Header("Sound List")]
     public Sound[] sounds;
 
-    private string[] sceneNameArray = { "MagnetSpeech", "UdaraSpeech", "PlanetSpeech" };
+    //private string[] sceneNameArray = { "MagnetSpeech", "UdaraSpeech", "PlanetSpeech" };
     private Scene sc;
 
     private void Awake()

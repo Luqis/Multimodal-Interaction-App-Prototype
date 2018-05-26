@@ -51,7 +51,7 @@ public class SpeechListener : MonoBehaviour
     public float rotationLimit = 0;
     [SerializeField]
     private float[] rotationDegrees = { 340f, 320f }; //{ 350f, 340f, 330f, 320f, 310f };
-    private float[] scaleUpArray = { 1.5f, 2.25f };//{ 1.25f, 1.5f, 1.75f, 2.25f };
+    private float[] scaleUpArray = { 1.2f, 1.7f };//{ 1.25f, 1.5f, 1.75f, 2.25f };
     private float[] scaleDownArray = { 0.85f, 0.60f };//{ 0.90f, 0.85f, 0.75f, 0.60f };
     private List<LanguageOption> languageOptions;
     private string langId = "ms-MY";
@@ -169,7 +169,9 @@ public class SpeechListener : MonoBehaviour
     {
         if (num == 0)
         {
-            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, 5 * Time.deltaTime);
+            if (targetImg.color == finalColor)
+                clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
             if (clips.position == magnetPoint.position && endGame)
             {
                 endGame = false;
@@ -221,7 +223,6 @@ public class SpeechListener : MonoBehaviour
             if (Array.Exists(keywords, word => word == resultText.text))
             {
                 target.Rotate(0, 0, -1f);
-                resultText.color = new Color(0, 1f, 0);
 
                 if (Array.Exists(rotationDegrees, degree => degree == rotationDegree) || rotationDegree <= rotationLimit)
                 {
@@ -231,16 +232,12 @@ public class SpeechListener : MonoBehaviour
 
                 UpdateDegreeOfRotationText();
             }
-            else
-            {
-                resultText.color = new Color(1f, 0, 0);
-            }
         }
 
         if (scaleUp)
         {
             float scaleFactor = 0.01f;
-            if (Array.Exists(scaleUpKeywords, word => word == resultText.text))
+            if (Array.Exists(keywords, word => word == resultText.text))
             {
                 target.transform.localScale += Vector3.one * scaleFactor;
 
@@ -317,6 +314,41 @@ public class SpeechListener : MonoBehaviour
     public void OnFinalResult(string result)
     {
         resultText.text = result;
+        if (rotate)
+        {
+            if (Array.Exists(magnetKeywords, word => word == resultText.text))
+            {
+                resultText.color = new Color(0, 1f, 0);
+            }
+            else
+            {
+                resultText.color = new Color(1f, 0, 0);
+            }
+        }
+
+        if (scaleUp)
+        {
+            if (Array.Exists(scaleUpKeywords, word => word == resultText.text))
+            {
+                resultText.color = new Color(0, 1f, 0);
+            }
+            else
+            {
+                resultText.color = new Color(1f, 0, 0);
+            }
+        }
+
+        if (scaleDown)
+        {
+            if (Array.Exists(scaleDownKeywords, word => word == resultText.text))
+            {
+                resultText.color = new Color(0, 1f, 0);
+            }
+            else
+            {
+                resultText.color = new Color(1f, 0, 0);
+            }
+        }
     }
 
     public void OnPartialResult(string result)

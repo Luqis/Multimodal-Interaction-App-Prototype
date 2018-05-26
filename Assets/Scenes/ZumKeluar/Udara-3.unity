@@ -281,7 +281,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 142179594}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -323,7 +323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -81.799995}
+  m_AnchoredPosition: {x: 150, y: -81.799995}
   m_SizeDelta: {x: 147.32, y: 130.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &442737832
@@ -534,7 +534,7 @@ PlayableDirector:
   m_GameObject: {fileID: 789691233}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 31379368daa53824d9943bc0a2b7c6f9, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: f5de12ea38875144199a38d342c80306, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -551,6 +551,10 @@ PlayableDirector:
   - key: {fileID: 114308218311183708, guid: 31379368daa53824d9943bc0a2b7c6f9, type: 2}
     value: {fileID: 949285848}
   - key: {fileID: 114836814982859970, guid: 31379368daa53824d9943bc0a2b7c6f9, type: 2}
+    value: {fileID: 1079288408}
+  - key: {fileID: 114308218311183708, guid: f5de12ea38875144199a38d342c80306, type: 2}
+    value: {fileID: 949285848}
+  - key: {fileID: 114836814982859970, guid: f5de12ea38875144199a38d342c80306, type: 2}
     value: {fileID: 1079288408}
   m_ExposedReferences:
     m_References: []
@@ -818,7 +822,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -81.5}
+  m_AnchoredPosition: {x: 150, y: -81.5}
   m_SizeDelta: {x: 75, y: 66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1002310927
@@ -1024,7 +1028,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -81.799995}
+  m_AnchoredPosition: {x: 150, y: -81.799995}
   m_SizeDelta: {x: 147.32, y: 130.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1540768650
@@ -1055,6 +1059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playDir: {fileID: 789691234}
+  sceneControl: {fileID: 0}
   successPanel: {fileID: 442737832}
   dialogBox: {fileID: 1144788810663114, guid: be7c6b8d65a1d0c42a6180a1995b09c4, type: 2}
   micBtn: {fileID: 62638264}

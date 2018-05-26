@@ -990,7 +990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -81.79999}
+  m_AnchoredPosition: {x: 150, y: -81.79999}
   m_SizeDelta: {x: 147.32, y: 130.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1056266602
@@ -1254,9 +1254,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '- Besar
-
-    - Kembang'
+  m_Text: '- Besar'
 --- !u!222 &1199582758
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1602,7 +1600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -81.5}
+  m_AnchoredPosition: {x: 150, y: -81.5}
   m_SizeDelta: {x: 75, y: 66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1641548440
@@ -1855,7 +1853,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1847132258}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1897,7 +1895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -81.79999}
+  m_AnchoredPosition: {x: 150, y: -81.79999}
   m_SizeDelta: {x: 147.32, y: 130.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1936816109
@@ -2240,6 +2238,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 929076629}
+        m_MethodName: BtnClkStopSoundName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: yeay
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2026319145
@@ -2573,7 +2582,7 @@ PlayableDirector:
   m_GameObject: {fileID: 2106413922}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 31379368daa53824d9943bc0a2b7c6f9, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: f5de12ea38875144199a38d342c80306, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -2588,9 +2597,13 @@ PlayableDirector:
   - key: {fileID: 0}
     value: {fileID: 2106413922}
   - key: {fileID: 114308218311183708, guid: 31379368daa53824d9943bc0a2b7c6f9, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1641548438}
   - key: {fileID: 114836814982859970, guid: 31379368daa53824d9943bc0a2b7c6f9, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1056266600}
+  - key: {fileID: 114308218311183708, guid: f5de12ea38875144199a38d342c80306, type: 2}
+    value: {fileID: 1641548438}
+  - key: {fileID: 114836814982859970, guid: f5de12ea38875144199a38d342c80306, type: 2}
+    value: {fileID: 1056266600}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &2106413924

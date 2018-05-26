@@ -931,6 +931,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 929076629}
+        m_MethodName: BtnClkStopSoundName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: yeay
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &751856741
@@ -1925,7 +1936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.41176468, g: 0.41176468, b: 0.41176468, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1997,7 +2008,7 @@ MonoBehaviour:
   targetScale: 1
   finalColor:
     serializedVersion: 2
-    rgba: 4281492735
+    rgba: 4294967295
   scaleUp: 0
   scaleDown: 0
   rotate: 1
@@ -2008,7 +2019,7 @@ MonoBehaviour:
   lowerLimit: 0
   clips: {fileID: 1581001524}
   magnetPoint: {fileID: 2135479762}
-  targetImg: {fileID: 0}
+  targetImg: {fileID: 1596054261}
   target: {fileID: 1065037956}
   targetOutline: {fileID: 557373325}
   rotationLimit: 0

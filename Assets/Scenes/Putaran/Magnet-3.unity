@@ -1341,6 +1341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playDir: {fileID: 0}
+  sceneControl: {fileID: 0}
   successPanel: {fileID: 27976887}
   dialogBox: {fileID: 613204598}
   micBtn: {fileID: 508942809}

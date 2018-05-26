@@ -78,7 +78,7 @@ public class TouchManager : MonoBehaviour
         micBtn = GameObject.Find("Mic-btn");
         successPanel = GameObject.Find("SuccessPanel");
         dialogBox = GameObject.Find("DialogBox");
-        sceneControl = GameControl.FindObjectOfType<SceneControl>();
+        sceneControl = FindObjectOfType<SceneControl>();
 
         degreeLimit = 360f - rotateLimit;
         upperLimit = degreeLimit + 2.5f;
@@ -131,7 +131,9 @@ public class TouchManager : MonoBehaviour
     {
         if (num == 0)
         {
-            clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
+            targetImg.color = Color.Lerp(targetImg.color, finalColor, 5 * Time.deltaTime);
+            if (targetImg.color == finalColor)
+                clips.transform.position = Vector3.MoveTowards(clips.position, magnetPoint.position, 400 * Time.deltaTime);
             if (clips.position == magnetPoint.position && endGame)
             {
                 StartCoroutine(ActiveSuccessPanel());
@@ -196,7 +198,7 @@ public class TouchManager : MonoBehaviour
             yield return new WaitForSeconds((float)playDir.duration + 0.5f);
         }
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(1f);
         AudioManager.instance.Play("yeay");
         successPanel.SetActive(true);
         yield return new WaitForSeconds(3f);

@@ -1337,6 +1337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playDir: {fileID: 0}
+  sceneControl: {fileID: 0}
   successPanel: {fileID: 27976887}
   dialogBox: {fileID: 613204598}
   micBtn: {fileID: 508942809}
@@ -1346,7 +1347,7 @@ MonoBehaviour:
   endGame: 0
   finalColor:
     serializedVersion: 2
-    rgba: 4281492735
+    rgba: 4294967295
   scaleUp: 0
   scaleDown: 0
   rotate: 1
@@ -1358,7 +1359,7 @@ MonoBehaviour:
   clips: {fileID: 1581001524}
   magnetPoint: {fileID: 2135479762}
   targetOutline: {fileID: 557373325}
-  targetImg: {fileID: 0}
+  targetImg: {fileID: 1596054261}
   target: {fileID: 1065037956}
 --- !u!4 &1540768652
 Transform:
@@ -1557,7 +1558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4117647, g: 0.4117647, b: 0.4117647, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
